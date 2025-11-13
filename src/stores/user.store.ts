@@ -1,0 +1,66 @@
+import { create } from "zustand";
+import { UserWithoutPassword } from "@/src/types/user.types";
+import { getToken, removeToken, setToken } from "@/src/lib/utils";
+import { signOut } from "next-auth/react";
+
+interface UserState {
+  user: UserWithoutPassword | null;
+  setUser: (user: UserWithoutPassword | null) => void;
+  clearUser: () => Promise<void>;
+  initUser: () => void; // Load từ token khi vào web
+  initFromNextAuth: (session: any) => void; // Load từ NextAuth session
+}
+
+export const useUserStore = create<UserState>((set, get) => ({
+  user: null,
+
+  setUser: (user: UserWithoutPassword | null) => {
+    set({ user });
+    if (user) {
+      setToken(user);
+    }
+  },
+
+  clearUser: async () => {
+    try {
+      await signOut({ redirect: false });
+    } catch (error) {
+      // Silently handle - no NextAuth session is expected behavior
+    }
+
+    removeToken();
+    set({ user: null });
+  },
+
+  initUser: () => {
+    const userFromToken = getToken();
+    if (userFromToken) {
+      set({ user: userFromToken });
+    }
+  },
+
+  // NEW: Initialize from NextAuth session
+  initFromNextAuth: (session: any) => {
+    if (session?.user) {
+      const currentUser = get().user;
+
+      // Prevent infinite updates by checking if user is already set
+      if (currentUser && currentUser.id === session.user.id) {
+        return;
+      }
+
+      const nextAuthUser: UserWithoutPassword = {
+        id: session.user.id,
+        email: session.user.email!,
+        firstName: session.user.name?.split(" ")[0] || "OAuth",
+        lastName: session.user.name?.split(" ").slice(1).join(" ") || "User",
+        avatar: session.user.image || "placeholder/avatar.png",
+        role: session.user.role as "admin" | "customer",
+        receiveNews: false,
+        twoFactorEnabled: false,
+      };
+      setToken(nextAuthUser);
+      set({ user: nextAuthUser });
+    }
+  },
+}));
