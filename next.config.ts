@@ -10,7 +10,6 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-    unoptimized: true,
   },
   /* config options here */
   typescript: {
