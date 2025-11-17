@@ -27,7 +27,7 @@
    ```bash
    pnpm run dev
    ```
-3. Mở trình duyệt và truy cập vào địa chỉ: `http://localhost:3000`
+4. Mở trình duyệt và truy cập vào địa chỉ: `http://localhost:3000`
 
 ## Cách chạy kiểm tra Lint Sun*:
 1. Chạy lệnh kiểm tra toàn bộ rules của Lint Sun*:
