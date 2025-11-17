@@ -37,6 +37,7 @@
 2. Chạy lệnh kiểm tra các file thay đổi:
     ```bash
     pnpm run lint:changed
+    ```
 3. Chạy lệnh kiểm tra các lỗi liên quan tới bảo mật:
     ```bash
     pnpm run lint:security
