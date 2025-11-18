@@ -170,8 +170,6 @@ const MainNavbar = () => {
               </div>
             ))}
           </nav>
-
-          <div className="flex items-center space-x-2 lg:space-x-4"></div>
         </div>
       </div>
 

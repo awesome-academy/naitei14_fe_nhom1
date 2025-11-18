@@ -171,7 +171,24 @@ const MainNavbar = () => {
             ))}
           </nav>
 
-          <div className="flex items-center space-x-2 lg:space-x-4"></div>
+          <div className="flex items-center space-x-2 lg:space-x-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-white hover:text-yellow-500 hidden sm:flex"
+            >
+              <Heart className="w-4 h-4 lg:w-5 lg:h-5" />
+            </Button>
+            <Link href="/login">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-white hover:text-yellow-500 hidden sm:flex"
+              >
+                <User className="w-4 h-4 lg:w-5 lg:h-5" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
 

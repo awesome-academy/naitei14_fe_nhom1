@@ -171,7 +171,67 @@ const MainNavbar = () => {
             ))}
           </nav>
 
-          <div className="flex items-center space-x-2 lg:space-x-4"></div>
+          <div className="flex items-center space-x-2 lg:space-x-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-white hover:text-yellow-500 hidden sm:flex"
+            >
+              <Heart className="w-4 h-4 lg:w-5 lg:h-5" />
+            </Button>
+            <Link href="/login">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-white hover:text-yellow-500 hidden sm:flex"
+              >
+                <User className="w-4 h-4 lg:w-5 lg:h-5" />
+              </Button>
+            </Link>
+            <div className="relative">
+              <Popover onOpenChange={handleOpenChange}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-white hover:text-yellow-500"
+                  >
+                    <Bell className="w-4 h-4 lg:w-5 lg:h-5" />
+                  </Button>
+                </PopoverTrigger>
+              </Popover>
+              {unreadCount > 0 && (
+                <Badge className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs">
+                  {unreadCount}
+                </Badge>
+              )}
+            </div>
+            <Link href="/cart" className="relative">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-white hover:text-yellow-500"
+              >
+                <ShoppingCart className="w-4 h-4 lg:w-5 lg:h-5" />
+              </Button>
+              <Badge className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs">
+                {cartItemCount}
+              </Badge>
+            </Link>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              className="xl:hidden text-white"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </Button>
+          </div>
         </div>
       </div>
 

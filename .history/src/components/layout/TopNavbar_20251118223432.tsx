@@ -55,7 +55,7 @@ const TopNavbar = () => {
       className="w-full h-full border-b bg-cover bg-center bg-no-repeat min-h-[500px] flex flex-col justify-start"
       style={{ backgroundImage: `url(/slides/slide-1.jpg)` }}
     >
-      <div className="w-full bg-black/30 backdrop-blur-sm p-2">
+      <div className="w-full bg-black/50 backdrop-blur-sm p-2">
         <div className="flex justify-between items-center h-7 text-xs tracking-tight max-w-7xl mx-auto">
           <div className="flex items-center space-x-6">
             {commonNavItems.map((item) => (
