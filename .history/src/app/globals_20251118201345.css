@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  /--foreground: #171717;
+
+  /* Thiết lập cho các biến màuền/chữ của Tailwind/Shadcn UI */
+  --primary: 222.2 47.4% 11.2%; /* Màu chính (ví dụ: nút nhấn) */
+  --primary-foreground: 210 40% 98%;
+  --muted: 210 40% 96.1%; /* Màu cho các phần tử mờ */
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --card: 0 0% 100%; /* Nền của các Card */
+  --card-foreground: 222.2 47.4% 11.2%;
+  --popover: 0 0% 100%; /* Nền của Popover */
+  --popover-foreground: 222.2 47.4% 11.2%;
+}
+
+body {
+  /* Ép buộc body sử dụng các biến Light Mode */
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Loại bỏ hoàn toàn khối @media (prefers-color-scheme: dark) */
