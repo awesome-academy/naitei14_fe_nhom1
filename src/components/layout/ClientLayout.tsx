@@ -1,0 +1,44 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+import Header from "./Header";
+import Footer from "./Footer";
+import { Toaster } from "sonner";
+import { useLayoutStore } from "@/src/stores/layout.store";
+
+interface ClientLayoutProps {
+  children: React.ReactNode;
+}
+
+function LayoutContent({ children }: ClientLayoutProps) {
+  const pathname = usePathname();
+  const hideHeaderFooter = useLayoutStore((state) => state.hideHeaderFooter);
+
+  // const fetchCart = useCartStore((state) => state.fetchCart);
+
+  // Sync NextAuth with Zustand (this handles initUser internally)
+  // useNextAuthSync();
+
+  const shouldHideHeaderFooter =
+    pathname?.startsWith("/admin") || hideHeaderFooter;
+
+  // Lấy cart khi đã có userId
+  // useEffect(() => {
+  //   if (userId) {
+  //     fetchCart(userId);
+  //   }
+  // }, [userId, fetchCart]);
+
+  return (
+    <>
+      {!shouldHideHeaderFooter && <Header />}
+      <Toaster position="top-right" richColors />
+      <div className={shouldHideHeaderFooter ? "" : "px-72"}>{children}</div>
+      {!shouldHideHeaderFooter && <Footer />}
+    </>
+  );
+}
+
+export default function ClientLayout({ children }: ClientLayoutProps) {
+  return <LayoutContent>{children}</LayoutContent>;
+}

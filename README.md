@@ -25,7 +25,7 @@
    ``` 
 3. Chạy ứng dụng ở chế độ phát triển:
    ```bash
-   pnpm run dev
+ pnpm run dev  
    ```
 4. Mở trình duyệt và truy cập vào địa chỉ: `http://localhost:3000`
 
