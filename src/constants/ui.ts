@@ -1,0 +1,17 @@
+export const UI_TEXT = {
+  READ_MORE: "ĐỌC THÊM",
+  BEST_SELLERS: "SẢN PHẨM BÁN CHẠY",
+  VIEW_ALL_PRODUCTS: "XEM TẤT CẢ SẢN PHẨM",
+  NEWS_BLOG: "TIN TỨC & BLOG",
+  VIEW_ALL_POSTS: "XEM TẤT CẢ BÀI VIẾT",
+  NEW_PRODUCTS: "SẢN PHẨM MỚI",
+  CUSTOMER_TESTIMONIALS: "KHÁCH HÀNG NÓI GÌ",
+  USE_FORM_FIELD_ERROR: "useFormField should be used within <FormField>",
+  DEFAULT_CURRENCY_STRING: "0 đ",
+  CURRENCY_SYMBOL: "đ",
+};
+export const CONFIG = {
+  REGISTRATION_TIMEOUT_MS: 2000,
+
+  DEFAULT_LOCALE: "vi-VN",
+};
