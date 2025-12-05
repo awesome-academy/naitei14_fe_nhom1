@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Image from "next/image";
 
 export default function Home() {
@@ -51,7 +52,7 @@ export default function Home() {
             Deploy Now
           </a>
           <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
+            className="flex h-12 w-full items-center justify-center rounded-full border border-solid px-5 transition-colors hover:border-transparent dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
             target="_blank"
             rel="noopener noreferrer"
@@ -60,6 +61,55 @@ export default function Home() {
           </a>
         </div>
       </main>
+=======
+import {
+  getAbout,
+  getBestSellers,
+  getFeatured,
+  getGallery,
+  getNewProducts,
+  getRecentBlogPosts,
+  getTestimonials,
+} from "@/src/lib/api";
+import AboutSection from "@/src/components/sections/AboutSection";
+import FeaturedProductSection from "@/src/components/sections/FeaturedProductSection";
+import NewProductsSection from "@/src/components/sections/NewProductsSection";
+import GallerySection from "@/src/components/sections/GallerySection";
+import BestSellersSection from "@/src/components/sections/BestSellersSection";
+import BlogSection from "@/src/components/sections/BlogSection";
+import TestimonialSection from "@/src/components/sections/TestimonialSection";
+import ProductCompareButton from "@/src/components/ProductCompareButton";
+
+export default async function RenderHomePage() {
+  const [newProducts, bestSellers, blogPosts, testimonials, about, featured] =
+    await Promise.all([
+      getNewProducts().catch(() => []),
+      getBestSellers().catch(() => []),
+      getRecentBlogPosts().catch(() => []),
+      getTestimonials().catch(() => []),
+      getAbout().catch(() => ({
+        title: "GIỚI THIỆU",
+        content:
+          "Chào mừng đến với DrinkShop - nơi cung cấp những chai rượu vang tuyệt hảo từ khắp nơi trên thế giới.",
+        image: "/Image_Rudu/df3218bb45274009c6c3d5de8a6b98bf.jpg",
+      })),
+      getFeatured().catch(() => null),
+      getGallery().catch(() => []),
+    ]);
+
+  const galleryData = await getGallery().catch(() => []);
+
+  return (
+    <div className="min-h-screen bg-white">
+      <AboutSection about={about} />
+      {featured && <FeaturedProductSection product={featured} />}
+      <NewProductsSection products={newProducts} />
+      <GallerySection gallery={galleryData} />
+      <BestSellersSection products={bestSellers} />
+      <BlogSection posts={blogPosts} />
+      <TestimonialSection testimonials={testimonials} />
+      <ProductCompareButton />
+>>>>>>> 425669f (init code base)
     </div>
   );
 }

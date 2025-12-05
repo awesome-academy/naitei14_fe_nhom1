@@ -7,7 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "sunlint --all --input=src",
+<<<<<<< HEAD
     "lint:changed": "sunlint --all --changed-files", 
+=======
+<<<<<<< HEAD
+    "lint:changed": "sunlint --all --changed-files",
+=======
+    "lint:changed": "sunlint --all --changed-files", 
+>>>>>>> b01fb7a (init code base)
+>>>>>>> 425669f (init code base)
     "lint:security": "sunlint --security --input=src",
     "json-server": "json-server --watch src/database/db.json --port 3001",
     "test": "jest"
