@@ -655,8 +655,8 @@
       "shippingFee": 15000,
       "discount": 0,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2024-02-15T08:30:00.000Z",
-      "updatedAt": "2025-08-21T02:59:13.557Z",
+      "orderDate": "2025-11-15T08:30:00.000Z",
+      "updatedAt": "2025-11-15T08:30:00.000Z",
       "isReviewed": true
     },
     {
@@ -671,8 +671,8 @@
       "shippingFee": 15000,
       "discount": 0,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2024-02-15T08:30:00.000Z",
-      "updatedAt": "2024-02-15T08:30:00.000Z"
+      "orderDate": "2025-12-08T08:30:00.000Z",
+      "updatedAt": "2025-12-08T08:30:00.000Z"
     },
     {
       "id": "3",
@@ -686,8 +686,8 @@
       "shippingFee": 15000,
       "discount": 0,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2024-03-10T10:15:00.000Z",
-      "updatedAt": "2025-08-21T03:02:48.764Z"
+      "orderDate": "2025-12-05T10:15:00.000Z",
+      "updatedAt": "2025-12-05T10:15:00.000Z"
     },
     {
       "id": "4",
@@ -701,8 +701,8 @@
       "shippingFee": 15000,
       "discount": 20,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2024-04-05T14:20:00.000Z",
-      "updatedAt": "2024-04-05T14:20:00.000Z"
+      "orderDate": "2025-11-28T14:20:00.000Z",
+      "updatedAt": "2025-11-28T14:20:00.000Z"
     },
     {
       "id": "5",
@@ -716,8 +716,8 @@
       "shippingFee": 15000,
       "discount": 0,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2024-05-20T16:45:00.000Z",
-      "updatedAt": "2024-05-20T16:45:00.000Z"
+      "orderDate": "2025-11-20T16:45:00.000Z",
+      "updatedAt": "2025-11-20T16:45:00.000Z"
     },
     {
       "id": "6",
@@ -731,8 +731,8 @@
       "shippingFee": 15000,
       "discount": 0,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2024-06-10T11:30:00.000Z",
-      "updatedAt": "2024-06-10T11:30:00.000Z"
+      "orderDate": "2025-11-10T11:30:00.000Z",
+      "updatedAt": "2025-11-10T11:30:00.000Z"
     },
     {
       "id": "7",
@@ -746,8 +746,8 @@
       "shippingFee": 15000,
       "discount": 0,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2024-07-01T09:00:00.000Z",
-      "updatedAt": "2024-07-01T09:00:00.000Z"
+      "orderDate": "2025-12-01T09:00:00.000Z",
+      "updatedAt": "2025-12-01T09:00:00.000Z"
     },
     {
       "id": "50ea",
@@ -761,8 +761,8 @@
       "shippingFee": 15000,
       "discount": 0,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2025-08-01T10:16:06.051Z",
-      "updatedAt": "2025-08-01T10:16:06.056Z",
+      "orderDate": "2025-10-25T10:16:06.051Z",
+      "updatedAt": "2025-10-25T10:16:06.056Z",
       "isReviewed": true
     },
     {
@@ -777,8 +777,8 @@
       "shippingFee": 15000,
       "discount": 0,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2025-08-04T06:12:28.169Z",
-      "updatedAt": "2025-08-04T06:12:28.169Z"
+      "orderDate": "2025-10-18T06:12:28.169Z",
+      "updatedAt": "2025-10-18T06:12:28.169Z"
     },
     {
       "id": "698c",
@@ -792,8 +792,8 @@
       "shippingFee": 0,
       "discount": 10,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2025-08-05T08:11:09.835Z",
-      "updatedAt": "2025-08-05T08:11:09.835Z"
+      "orderDate": "2025-10-22T08:11:09.835Z",
+      "updatedAt": "2025-10-22T08:11:09.835Z"
     },
     {
       "id": "13d0",
@@ -807,8 +807,8 @@
       "shippingFee": 15000,
       "discount": 0,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2025-08-06T05:51:39.333Z",
-      "updatedAt": "2025-08-21T03:09:30.775Z"
+      "orderDate": "2025-10-30T05:51:39.333Z",
+      "updatedAt": "2025-10-30T05:51:39.333Z"
     },
     {
       "id": "fa04",
@@ -822,8 +822,8 @@
       "shippingFee": 15000,
       "discount": 0,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2025-08-13T05:51:32.149Z",
-      "updatedAt": "2025-08-13T05:51:32.149Z"
+      "orderDate": "2025-11-03T05:51:32.149Z",
+      "updatedAt": "2025-11-03T05:51:32.149Z"
     },
     {
       "id": "3e9c",
@@ -837,8 +837,8 @@
       "shippingFee": 15000,
       "discount": 0,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2025-08-19T11:22:10.913Z",
-      "updatedAt": "2025-08-19T11:22:10.924Z"
+      "orderDate": "2025-11-25T11:22:10.913Z",
+      "updatedAt": "2025-11-25T11:22:10.924Z"
     },
     {
       "id": "1eb4",
@@ -852,8 +852,8 @@
       "shippingFee": 15000,
       "discount": 0,
       "paymentMethod": "Thanh toán khi nhận hàng",
-      "orderDate": "2025-08-19T11:29:22.719Z",
-      "updatedAt": "2025-08-19T11:29:22.719Z"
+      "orderDate": "2025-12-07T11:29:22.719Z",
+      "updatedAt": "2025-12-07T11:29:22.719Z"
     }
   ],
   "orderDetails": [

@@ -1,6 +1,5 @@
 import { EmailTemplate, EmailTemplateType, WelcomeEmailData, OrderConfirmationEmailData, 
   ResetPasswordEmailData } from '@/src/types/email';
-import DOMPurify from 'dompurify';
 
 const getBaseTemplate = (content: string, title: string = 'DrinkShop') => `
 <!DOCTYPE html>
@@ -95,13 +94,18 @@ const getBaseTemplate = (content: string, title: string = 'DrinkShop') => `
 </html>
 `;
 
-const sanitize = (unsafe: string): string => {
-  return DOMPurify.sanitize(unsafe);
+const escapeHtml = (unsafe: string): string => {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 };
 
 const getWelcomeTemplate = (data: WelcomeEmailData): EmailTemplate => {
   const content = `
-    <h2>Chào mừng ${sanitize(data.name)} đến với DrinkShop! 🎉</h2>
+    <h2>Chào mừng ${escapeHtml(data.name)} đến với DrinkShop! 🎉</h2>
     <p>Cảm ơn bạn đã đăng ký tài khoản tại DrinkShop. Chúng tôi rất vui được chào đón bạn!</p>
     <p>Với tài khoản DrinkShop, bạn có thể:</p>
     <ul>
@@ -112,7 +116,7 @@ const getWelcomeTemplate = (data: WelcomeEmailData): EmailTemplate => {
     </ul>
     ${data.verificationLink ? `
     <p>Để hoàn tất việc đăng ký, vui lòng xác thực email của bạn:</p>
-    <a href="${sanitize(data.verificationLink)}" class="button">Xác thực Email</a>
+    <a href="${escapeHtml(data.verificationLink)}" class="button">Xác thực Email</a>
     ` : ''}
     <p>Chúc bạn có những trải nghiệm tuyệt vời tại DrinkShop!</p>
   `;
@@ -168,21 +172,21 @@ const getOrderConfirmationTemplate = (data: OrderConfirmationEmailData): EmailTe
 const getResetPasswordTemplate = (data: ResetPasswordEmailData): EmailTemplate => {
   const content = `
     <h2>Đặt lại mật khẩu 🔐</h2>
-    <p>Xin chào ${sanitize(data.name)},</p>
+    <p>Xin chào ${escapeHtml(data.name)},</p>
     <p>Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản DrinkShop của mình.</p>
     <p>Nhấp vào nút bên dưới để đặt lại mật khẩu:</p>
     
-    <a href="${sanitize(data.resetLink)}" class="button">Đặt lại mật khẩu</a>
+    <a href="${escapeHtml(data.resetLink)}" class="button">Đặt lại mật khẩu</a>
     
     <p><strong>Lưu ý quan trọng:</strong></p>
     <ul>
-        <li>Link này sẽ hết hạn vào ${sanitize(data.expirationTime)}</li>
+        <li>Link này sẽ hết hạn vào ${escapeHtml(data.expirationTime)}</li>
         <li>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này</li>
         <li>Không chia sẻ link này với bất kỳ ai</li>
     </ul>
     
     <p>Nếu nút không hoạt động, bạn có thể copy và dán link sau vào trình duyệt:</p>
-    <p style="word-break: break-all; color: #666;">${sanitize(data.resetLink)}</p>
+    <p style="word-break: break-all; color: #666;">${escapeHtml(data.resetLink)}</p>
   `;
 
   return {
@@ -206,15 +210,6 @@ const getOrderStatusUpdateTemplate = (data: { orderNumber: string; customerName:
     html: getBaseTemplate(content, 'Cập nhật trạng thái đơn hàng'),
     text: `Đơn hàng #${data.orderNumber} đã được ${data.status === 'confirmed' ? 'xác nhận' : 'từ chối'}.`
   };
-};
-
-const escapeHtml = (unsafe: string): string => {
-  return unsafe
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
 };
 
 const getMonthlyRevenueReportTemplate = (data: { month: string; totalRevenue: number; topProducts: { name: string; revenue: number; }[]; }): EmailTemplate => {
