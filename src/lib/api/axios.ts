@@ -5,7 +5,7 @@ import axios, {
 } from "axios";
 import { getToken } from "@/src/lib/utils";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE;
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3001";
 console.log("API Base URL:", BASE_URL);
 
 // Create public axios instance (no auth required)
@@ -56,12 +56,14 @@ const errorInterceptor = (error: AxiosError) => {
     return Promise.reject(error.response.data);
   } else if (error.request) {
     // The request was made but no response was received
-    console.error("Request Error:", error.request);
-    return Promise.reject({ message: "No response from server" });
+    console.error("Request Error: Không thể kết nối đến server. Vui lòng đảm bảo JSON server đang chạy tại", BASE_URL);
+    return Promise.reject({ 
+      message: `Không thể kết nối đến server tại ${BASE_URL}. Vui lòng chạy lệnh "pnpm run json-server" trong terminal khác.` 
+    });
   } else {
     // Something happened in setting up the request that triggered an Error
     console.error("Error:", error.message);
-    return Promise.reject({ message: "Request failed" });
+    return Promise.reject({ message: error.message || "Request failed" });
   }
 };
 
@@ -69,7 +71,9 @@ const errorInterceptor = (error: AxiosError) => {
 const privateErrorInterceptor = (error: AxiosError) => {
   if (error.response?.status === 401) {
     // Redirect to login page if unauthorized
-    window.location.href = "/login";
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
   }
 
   // Use the same error handling as the general interceptor
@@ -77,11 +81,13 @@ const privateErrorInterceptor = (error: AxiosError) => {
     console.error("Response Error:", error.response.data);
     return Promise.reject(error.response.data);
   } else if (error.request) {
-    console.error("Request Error:", error.request);
-    return Promise.reject({ message: "No response from server" });
+    console.error("Request Error: Không thể kết nối đến server. Vui lòng đảm bảo JSON server đang chạy tại", BASE_URL);
+    return Promise.reject({ 
+      message: `Không thể kết nối đến server tại ${BASE_URL}. Vui lòng chạy lệnh "pnpm run json-server" trong terminal khác.` 
+    });
   } else {
     console.error("Error:", error.message);
-    return Promise.reject({ message: "Request failed" });
+    return Promise.reject({ message: error.message || "Request failed" });
   }
 };
 
