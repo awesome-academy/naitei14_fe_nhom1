@@ -11,7 +11,7 @@ import { Button } from '../ui/button';
 import { Label } from '@/src/components/ui/label';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Checkbox } from '@radix-ui/react-checkbox';
+import { Checkbox } from '../ui/checkbox';
 
 interface Props {
     user: User | null;
@@ -77,14 +77,13 @@ export default function UserForm({ user, onSave, onCancel }: Props) {
 
         setIsSubmitting(true);
         try {
-            const userData = { ...form, avatar: 'placeholder/avatar.png' };
             if (user) {
-                await updateUser(user.id, userData);
+                await updateUser(user.id, form);
                 toast.success('Cập nhật người dùng thành công');
             } else {
-                await addUser(userData);
+                await addUser(form);
                 toast.success('Thêm người dùng thành công', {
-                    description: `Người dùng ${userData.firstName} đã được tạo.`,
+                    description: `Người dùng ${form.firstName} đã được tạo.`,
                 });
             }
             setForm(INITIAL_FORM_STATE);
@@ -98,8 +97,8 @@ export default function UserForm({ user, onSave, onCancel }: Props) {
 
     useEffect(() => {
         if (user) {
-            setForm({ ...user, password: '', avatar: 'placeholder/avatar.png' });
-            validateForm({ ...user, password: '', avatar: 'placeholder/avatar.png' });
+            setForm({ ...user, password: '' });
+            validateForm({ ...user, password: '' });
         } else {
             setForm(INITIAL_FORM_STATE);
             validateForm(INITIAL_FORM_STATE);

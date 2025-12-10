@@ -8,21 +8,19 @@ export const getUsers = async (): Promise<User[]> => {
 };
 
 export const addUser = async (user: Omit<User, 'id'>): Promise<void> => {
-    const userData = { ...user, avatar: 'placeholder/avatar.png' };
     const response = await fetch(`${API_BASE}/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
+        body: JSON.stringify(user),
     });
     if (!response.ok) throw new Error('Failed to add user');
 };
 
 export const updateUser = async (id: string, user: Partial<User>): Promise<void> => {
-    const userData = { ...user, avatar: 'placeholder/avatar.png' };
     const response = await fetch(`${API_BASE}/users/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
+        body: JSON.stringify(user),
     });
     if (!response.ok) throw new Error('Failed to update user');
 };
