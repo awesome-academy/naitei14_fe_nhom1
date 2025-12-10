@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import Head from "next/head";
 import { FaMoneyBill1Wave } from "react-icons/fa6";
-import { FaUser, FaShoppingCart, FaComment, FaSync } from "react-icons/fa";
+import { FaUser, FaShoppingCart, FaComment, FaSync, FaBox, FaCheckCircle, FaClock } from "react-icons/fa";
 import { RiAdminLine } from "react-icons/ri";
 import { Button } from "@/src/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -10,11 +10,24 @@ import { formatCurrency } from "@/src/utils/format.currency";
 import { RevenueChart } from "./RevenueChart";
 import { StatsCard, StatItem } from "./StartsCard";
 import { ExportData } from "./ExportData";
+import { BestSellingProducts } from "./BestSellingProducts";
+import { CategoryStatsChart } from "./CategoryStatsChart";
+import { OrderStatusChart } from "./OrderStatusChart";
 import AdminPageLayout from '@/src/components/layout/AdminPageLayout';
 
 export default function Dashboard() {
   const router = useRouter();
-  const { stats, chartData, loading, error, refreshData } = useDashboard();
+  const { 
+    stats, 
+    chartData, 
+    bestSellingProducts, 
+    categoryStats, 
+    orderStatusStats, 
+    loading, 
+    error, 
+    refreshData,
+    updateChartPeriod
+  } = useDashboard();
 
   const formatNumber = (num: number): string => {
     if (num >= 1000000) {
@@ -35,6 +48,12 @@ export default function Dashboard() {
         loading,
       },
       {
+        icon: <FaBox className="text-2xl" />,
+        value: loading ? "..." : formatNumber(stats?.totalProducts || 0),
+        label: "Sản phẩm",
+        loading,
+      },
+      {
         icon: <FaMoneyBill1Wave className="text-2xl" />,
         value: loading ? "..." : formatCurrency(stats?.totalRevenue || 0),
         label: "Tổng doanh thu",
@@ -43,13 +62,31 @@ export default function Dashboard() {
       {
         icon: <FaShoppingCart className="text-2xl" />,
         value: loading ? "..." : formatNumber(stats?.totalOrders || 0),
-        label: "Số lượng đơn hàng",
+        label: "Tổng đơn hàng",
+        loading,
+      },
+      {
+        icon: <FaCheckCircle className="text-2xl text-green-600" />,
+        value: loading ? "..." : formatNumber(stats?.completedOrders || 0),
+        label: "Đơn hoàn thành",
+        loading,
+      },
+      {
+        icon: <FaClock className="text-2xl text-yellow-600" />,
+        value: loading ? "..." : formatNumber(stats?.pendingOrders || 0),
+        label: "Đơn đang xử lý",
+        loading,
+      },
+      {
+        icon: <FaMoneyBill1Wave className="text-2xl text-blue-600" />,
+        value: loading ? "..." : formatCurrency(stats?.averageOrderValue || 0),
+        label: "Giá trị TB/đơn",
         loading,
       },
       {
         icon: <FaComment className="text-2xl" />,
         value: loading ? "..." : formatNumber(stats?.totalComments || 0),
-        label: "Số bình luận",
+        label: "Bình luận",
         loading,
       },
     ],
@@ -66,7 +103,7 @@ export default function Dashboard() {
             </h2>
             <p className="text-gray-700 mb-4">{error}</p>
             <Button
-              onClick={refreshData}
+              onClick={() => refreshData()}
               className="bg-blue-500 hover:bg-blue-600"
             >
               <FaSync className="mr-2" />
@@ -90,7 +127,7 @@ export default function Dashboard() {
           <div className="flex items-center space-x-4">
             <ExportData loading={loading} />
             <Button
-              onClick={refreshData}
+              onClick={() => refreshData()}
               variant="outline"
               size="sm"
               disabled={loading}
@@ -108,7 +145,21 @@ export default function Dashboard() {
 
         <main className="p-6 overflow-auto">
           <StatsCard stats={dashboardStats} />
-          <RevenueChart chartData={chartData || {}} loading={loading} />
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <BestSellingProducts products={bestSellingProducts} loading={loading} />
+            <OrderStatusChart statusData={orderStatusStats} loading={loading} />
+          </div>
+
+          <div className="mb-6">
+            <CategoryStatsChart categories={categoryStats} loading={loading} />
+          </div>
+
+          <RevenueChart 
+            chartData={chartData || {}} 
+            loading={loading} 
+            onPeriodChange={updateChartPeriod}
+          />
         </main>
       </div>
     </AdminPageLayout>
