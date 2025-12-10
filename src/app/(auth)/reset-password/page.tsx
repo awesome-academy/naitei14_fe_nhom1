@@ -25,6 +25,7 @@ import {
 } from "@/src/components/ui/form";
 import { FormLabel } from "@/src/components/ui/form-label";
 import { Alert, AlertDescription } from "@/src/components/ui/alert";
+import { authService } from "@/src/services/authService";
 import { AuthLayout } from "@/src/components/auth";
 
 const resetPasswordSchema = z
@@ -47,7 +48,7 @@ export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);
   const [validToken, setValidToken] = useState<boolean | null>(null);
 
-  const token = searchParams?.get("token") ?? null;
+  const token = searchParams?.get("token") || null;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(resetPasswordSchema),
@@ -57,30 +58,20 @@ export default function ResetPasswordPage() {
     },
   });
 
+  // Check token validity on mount
   useEffect(() => {
-    const checkToken = async () => {
-      if (!token) {
-        setValidToken(false);
-        return;
-      }
+    if (!token) {
+      setValidToken(false);
+      return;
+    }
 
-      try {
-        // Gọi API xác thực token
-        const res = await fetch(
-          `/api/auth/validate-reset-token?token=${encodeURIComponent(token)}`
-        );
-        if (!res.ok) {
-          setValidToken(false);
-          return;
-        }
-        const data = await res.json();
-        setValidToken(data.valid === true);
-      } catch (err) {
-        setValidToken(false);
-      }
-    };
+    // Token format should be valid (at least 20 characters)
+    if (token.length < 20) {
+      setValidToken(false);
+      return;
+    }
 
-    checkToken();
+    setValidToken(true);
   }, [token]);
 
   const onSubmit = async (data: FormValues) => {
@@ -90,19 +81,16 @@ export default function ResetPasswordPage() {
       setLoading(true);
       setError(null);
 
-      // --- MOCK API CALL ---
-      console.log("Đặt lại mật khẩu mới:", data.newPassword, "Token:", token);
-      await new Promise((resolve) => setTimeout(resolve, 1500)); // Giả lập delay
-
+      await authService.resetPassword(token, data.newPassword);
       setSuccess(true);
     } catch (err: any) {
-      setError("Có lỗi xảy ra khi đặt lại mật khẩu");
+      setError(err.message || "Có lỗi xảy ra");
     } finally {
       setLoading(false);
     }
   };
 
-  // Invalid token UI
+  // Invalid token
   if (validToken === false) {
     return (
       <AuthLayout>
@@ -134,7 +122,7 @@ export default function ResetPasswordPage() {
     );
   }
 
-  // Success UI
+  // Success state
   if (success) {
     return (
       <AuthLayout>
@@ -158,7 +146,7 @@ export default function ResetPasswordPage() {
     );
   }
 
-  // Loading UI (Checking token)
+  // Loading token check
   if (validToken === null) {
     return (
       <AuthLayout>
@@ -174,7 +162,6 @@ export default function ResetPasswordPage() {
     );
   }
 
-  // Main Form UI
   return (
     <AuthLayout>
       <Card className="w-full max-w-md">

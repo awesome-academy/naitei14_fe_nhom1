@@ -19,19 +19,20 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAuth } from "@/src/hooks/useAuth";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { OAuthButtons } from "@/src/components/auth";
 
 const formSchema = z.object({
-  email: z.string().email("Email không hợp lệ"),
+  email: z.email("Email không hợp lệ"),
   password: z.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
-  rememberMe: z.boolean().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const { login, loading } = useAuth();
+  const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<FormValues>({
@@ -39,8 +40,7 @@ export default function LoginPage() {
     defaultValues: {
       email: "",
       password: "",
-      rememberMe: false,
-    },
+    } as FormValues,
   });
 
   const onSubmit = async (data: FormValues) => {
@@ -50,6 +50,7 @@ export default function LoginPage() {
         email: data.email,
         password: data.password,
       });
+      // Redirect sẽ được xử lý trong useAuth
     } catch (err) {
       setServerError(err instanceof Error ? err.message : "Đăng nhập thất bại");
     }
@@ -83,7 +84,6 @@ export default function LoginPage() {
               </h2>
             </div>
 
-            {/* Email */}
             <FormField
               control={form.control}
               name="email"
@@ -104,7 +104,6 @@ export default function LoginPage() {
               )}
             />
 
-            {/* Password */}
             <FormField
               control={form.control}
               name="password"
@@ -125,29 +124,15 @@ export default function LoginPage() {
               )}
             />
 
-            {/* Remember Me + Forgot Password */}
             <div className="flex items-center justify-between px-20">
-              <FormField
-                control={form.control}
-                name="rememberMe"
-                render={({ field }) => (
-                  <FormItem className="flex items-center gap-2">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value || false} // bind boolean
-                        onCheckedChange={(checked) =>
-                          field.onChange(checked === true)
-                        }
-                        className="border-gray-500 size-3 rounded-none"
-                      />
-                    </FormControl>
-                    <FormLabel className="text-sm text-nowrap">
-                      Ghi nhớ đăng nhập
-                    </FormLabel>
-                  </FormItem>
-                )}
-              />
-
+              <div className="flex items-center gap-2">
+                <FormControl>
+                  <Checkbox className="border-gray-500 size-3 rounded-none" />
+                </FormControl>
+                <FormLabel className="text-sm text-nowrap">
+                  Ghi nhớ đăng nhập
+                </FormLabel>
+              </div>
               <Link
                 href="/forgot-password"
                 className="text-sm text-blue-600 hover:text-blue-800"
@@ -156,12 +141,10 @@ export default function LoginPage() {
               </Link>
             </div>
 
-            {/* Server error */}
             {serverError && (
               <div className="text-red-500 text-sm">{serverError}</div>
             )}
 
-            {/* Submit */}
             <Button
               type="submit"
               disabled={loading}

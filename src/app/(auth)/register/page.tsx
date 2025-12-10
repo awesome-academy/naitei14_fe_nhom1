@@ -8,6 +8,13 @@ import Link from "next/link";
 import titleleftdark from "@/public/Image_Rudu/titleleft-dark.png";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import {
+  Select,
+  SelectContent,
+  SelectValue,
+  SelectItem,
+  SelectTrigger,
+} from "@/src/components/ui/select";
+import {
   Form,
   FormControl,
   FormField,
@@ -18,21 +25,16 @@ import { FormLabel } from "@/src/components/ui/form-label";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useAuth } from "@/src/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-// Giả lập backend call
-const REGISTRATION_TIMEOUT_MS = 1000;
-const handleUserRegistration = async (data: any) => {
-  return new Promise((resolve) => setTimeout(resolve, REGISTRATION_TIMEOUT_MS));
-};
-
-// Schema validate form
 const formSchema = z
   .object({
     firstName: z.string().min(2, "Tên trước phải có ít nhất 2 ký tự"),
     lastName: z.string().min(2, "Tên sau phải có ít nhất 2 ký tự"),
-    email: z.string().email({ message: "Email không hợp lệ" }),
+    email: z.email({ message: "Email không hợp lệ" }),
+    role: z.enum(["admin", "customer"]).describe("Vai trò"),
     receiveNews: z.boolean(),
     password: z.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
     confirmPassword: z.string(),
@@ -44,11 +46,10 @@ const formSchema = z
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function RegisterUserPage() {
+export default function RegisterPage() {
+  const { register, loading, error } = useAuth();
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -56,34 +57,30 @@ export default function RegisterUserPage() {
       firstName: "",
       lastName: "",
       email: "",
+      role: "customer",
       receiveNews: false,
       password: "",
       confirmPassword: "",
-    },
+    } as FormValues,
   });
 
   const onSubmit = async (data: FormValues) => {
-    setLoading(true);
     try {
       setServerError(null);
-      await handleUserRegistration({
-        firstName: data.firstName,
-        lastName: data.lastName,
+
+      // Gọi hàm đăng ký
+      await register({
         email: data.email,
         password: data.password,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        role: data.role,
         receiveNews: data.receiveNews,
-        role: "customer", // mặc định
       });
-      setSuccess(true);
 
-      // redirect sau 1 giây
-      setTimeout(() => router.push("/login"), 1000);
+      router.push("/login");
     } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Đăng ký thất bại";
-      setServerError(errorMessage);
-    } finally {
-      setLoading(false);
+      setServerError(err instanceof Error ? err.message : "Đăng ký thất bại");
     }
   };
 
@@ -164,15 +161,40 @@ export default function RegisterUserPage() {
 
             <FormField
               control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem className="flex gap-10">
+                  <FormLabel className="text-sm text-nowrap" required>
+                    Vai trò
+                  </FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Chọn vai trò" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="rounded-none">
+                      <SelectItem value="admin">Quản trị viên</SelectItem>
+                      <SelectItem value="customer">Khách hàng</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="receiveNews"
               render={({ field }) => (
                 <FormItem className="flex items-center gap-2 px-20">
                   <FormControl>
                     <Checkbox
-                      checked={field.value || false}
-                      onCheckedChange={(checked) =>
-                        field.onChange(checked === true)
-                      }
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
                       className="border-gray-500 size-3 rounded-none"
                     />
                   </FormControl>
@@ -227,11 +249,6 @@ export default function RegisterUserPage() {
 
             {serverError && (
               <div className="text-red-500 text-sm">{serverError}</div>
-            )}
-            {success && (
-              <div className="text-green-600 text-sm">
-                Đăng ký thành công! Chuyển hướng sang đăng nhập...
-              </div>
             )}
 
             <div className="flex gap-4 self-end">

@@ -5,6 +5,10 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { Toaster } from "sonner";
 import { useLayoutStore } from "@/src/stores/layout.store";
+import { useUserStore } from "@/src/stores/user.store";
+import { useCartStore } from "@/src/stores/cart.store";
+import { useNextAuthSync } from "@/src/hooks/useNextAuthSync";
+import { useEffect } from "react";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -14,20 +18,21 @@ function LayoutContent({ children }: ClientLayoutProps) {
   const pathname = usePathname();
   const hideHeaderFooter = useLayoutStore((state) => state.hideHeaderFooter);
 
-  // const fetchCart = useCartStore((state) => state.fetchCart);
+  const userId = useUserStore((state) => state.user?.id);
+  const fetchCart = useCartStore((state) => state.fetchCart);
 
   // Sync NextAuth with Zustand (this handles initUser internally)
-  // useNextAuthSync();
+  useNextAuthSync();
 
   const shouldHideHeaderFooter =
     pathname?.startsWith("/admin") || hideHeaderFooter;
 
   // Lấy cart khi đã có userId
-  // useEffect(() => {
-  //   if (userId) {
-  //     fetchCart(userId);
-  //   }
-  // }, [userId, fetchCart]);
+  useEffect(() => {
+    if (userId) {
+      fetchCart(userId);
+    }
+  }, [userId, fetchCart]);
 
   return (
     <>

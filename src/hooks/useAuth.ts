@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { use, useState } from "react";
 import { useRouter } from "next/navigation";
 import { UserWithoutPassword } from "@/src/types/user.types";
 import { removeToken, setToken } from "@/src/lib/utils";
-// import { addCart } from "@/src/utils/api/cart.api";
+import { addCart } from "@/src/utils/api/cart.api";
 import { useUserStore } from "@/src/stores/user.store";
-// import { useCartStore } from "@/src/stores/cart.store";
-// import { useNotifications } from "@/src/hooks/useNotifications";
+import { useCartStore } from "@/src/stores/cart.store";
+import { useNotifications } from "@/src/hooks/useNotifications";
 
 interface RegisterData {
   email: string;
@@ -35,7 +35,7 @@ interface UseAuth {
 export const useAuth = (): UseAuth => {
   const router = useRouter();
   const { user, setUser, clearUser } = useUserStore();
-  // const { clearNotifications } = useNotifications();
+  const { clearNotifications } = useNotifications();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -55,7 +55,7 @@ export const useAuth = (): UseAuth => {
         throw new Error(result.message || "Registration failed");
 
       // Tạo cart mới rồi chuyển hướng
-      // addCart(result.data.id);
+      addCart(result.data.id);
       router.push("/login");
     } catch (err: any) {
       setError(err.message || "Registration failed");
@@ -119,8 +119,8 @@ export const useAuth = (): UseAuth => {
       }
 
       clearUser();
-      // clearNotifications();
-      // useCartStore.setState({ cart: null, isChange: false });
+      clearNotifications();
+      useCartStore.setState({ cart: null, isChange: false });
       removeToken();
 
       router.push("/login");
