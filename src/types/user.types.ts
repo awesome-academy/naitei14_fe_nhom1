@@ -10,6 +10,7 @@ export interface User {
   role: UserRole;
   receiveNews: boolean;
   twoFactorEnabled: boolean;
+  token?: string;
 }
 
 export type UserWithoutPassword = Omit<User, "password">;
@@ -34,11 +35,11 @@ export interface ApiResponse<T> {
   message?: string;
 }
 
-export interface UsersResponse extends ApiResponse<User[]> { }
+export interface UsersResponse extends ApiResponse<User[]> {}
 export interface UserResponse {
   success: boolean;
   data: UserWithoutPassword;
   message: string;
 }
-export interface AddressesResponse extends ApiResponse<Address[]> { }
-export interface AddressResponse extends ApiResponse<Address> { }
+export interface AddressesResponse extends ApiResponse<Address[]> {}
+export interface AddressResponse extends ApiResponse<Address> {}

@@ -5,7 +5,7 @@ import MainNavbar from "./MainNavbar";
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-50 bg-background border-b">
+    <header className="sticky bg-background border-b">
       <TopNavbar />
       <MainNavbar />
     </header>

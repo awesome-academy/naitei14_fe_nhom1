@@ -5,12 +5,14 @@ import Link from "next/link";
 import { Button } from "@/src/components/ui/button";
 import { Card, CardContent } from "@/src/components/ui/card";
 import { Badge } from "@/src/components/ui/badge";
-import { ChartColumnStacked, Heart, ShoppingCart } from "lucide-react";
+import { ChartColumnStacked, Heart, ShoppingCart, Star } from "lucide-react";
 import type { Product as ApiProduct } from "@/src/lib/api";
-import { formatCurrency } from "@/src/utils/currency";
+import type { Product as CartProduct } from "@/src/types/product.types";
+import { useAddToCart } from "@/src/hooks/useAddToCart";
+import { formatCurrency } from "@/src/utils/format.currency";
+import { useProductCompareStore } from "@/src/stores/product.compare.store";
 import ProductDiscountBadge from "./ProductDiscountBadge";
 import StarRating from "./StarRating";
-import * as React from "react";
 
 interface ProductCardListProps {
   product: ApiProduct;
@@ -18,14 +20,39 @@ interface ProductCardListProps {
   badgeColor?: string;
 }
 
-export default function DisplayProductCardList({
+export default function ProductCardList({
   product,
   badge,
   badgeColor = "bg-yellow-500",
-}: ProductCardListProps): React.JSX.Element {
+}: ProductCardListProps) {
+  const addToCart = useAddToCart();
+  const { addProduct } = useProductCompareStore();
+
+  // Convert ApiProduct to CartProduct format
+  const convertToCartProduct = (apiProduct: ApiProduct): CartProduct => {
+    return {
+      status: "active", // Default status
+      reviewCount: apiProduct.reviews,
+      id: apiProduct.id,
+      name: apiProduct.name,
+      price: apiProduct.price,
+      originalPrice: apiProduct.originalPrice,
+      image: apiProduct.image,
+      category: apiProduct.category,
+      description: apiProduct.description,
+      rating: apiProduct.rating,
+      reviews: apiProduct.reviews,
+      stock: apiProduct.inStock ? 100 : 0, // Convert inStock boolean to stock number
+      features: apiProduct.features,
+      discount: apiProduct.discount,
+    };
+  };
+
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    const cartProduct = convertToCartProduct(product);
+    addToCart(cartProduct);
   };
 
   return (
@@ -87,7 +114,9 @@ export default function DisplayProductCardList({
               </Button>
               <Button
                 className="bg-black hover:bg-gray-800 text-white text-sm"
-                onClick={() => {}}
+                onClick={() => {
+                  addProduct(convertToCartProduct(product));
+                }}
               >
                 <ChartColumnStacked className="w-4 h-4 mr-2" />
                 Thêm vào so sánh
