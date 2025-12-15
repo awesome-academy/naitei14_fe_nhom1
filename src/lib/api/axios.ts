@@ -26,20 +26,33 @@ export const privateApi = axios.create({
   },
 });
 
-// ===== Request interceptor (private only) =====
-privateApi.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    const userData = getToken();
+// Add request interceptor to private instance to handle auth
+privateApi.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  const userData = getToken();
 
-    if (userData) {
-      config.headers["X-User-Id"] = userData.id;
-      config.headers["X-User-Role"] = userData.role;
+  console.log("1. Checking LocalStorage...");
+  console.log("2. Raw userData returned from getToken():", userData);
+
+  if (userData) {
+    config.headers["X-User-Id"] = userData.id;
+
+    const token = (userData as any).accessToken || (userData as any).token;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    console.log("3. Token extracted:", token);
+
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    } else {
+      console.error("❌ CÓ USER NHƯNG KHÔNG CÓ TOKEN!");
     }
-
-    return config;
-  },
-  (error: AxiosError) => Promise.reject(error)
-);
+  } else {
+    console.error("❌ KHÔNG TÌM THẤY USER DATA TỪ getToken()");
+  }
+  return config;
+}),
+  (error: AxiosError) => {
+    return Promise.reject(error);
+  };
 
 // ===== Response interceptors =====
 

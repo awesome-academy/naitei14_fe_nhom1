@@ -117,6 +117,14 @@
       "avatar": "placeholder/avatar.png",
       "role": "customer",
       "receiveNews": false
+      "id": "98a9",
+      "email": "duyetleminh@gmail.com",
+      "password": "123456",
+      "firstName": "leminh",
+      "lastName": "duyet",
+      "avatar": "placeholder/avatar.png",
+      "role": "customer",
+      "receiveNews": true
     }
   ],
   "addresses": [
@@ -879,10 +887,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/1.jpg",
-        "images": [
-          "/Product/1.jpg",
-          "/Product/2.jpg"
-        ],
+        "images": ["/Product/1.jpg", "/Product/2.jpg"],
         "categoryId": "19",
         "stock": 50,
         "isNew": false,
@@ -911,10 +916,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/3.jpg",
-        "images": [
-          "/Product/3.jpg",
-          "/Product/4.jpg"
-        ],
+        "images": ["/Product/3.jpg", "/Product/4.jpg"],
         "categoryId": "19",
         "stock": 30,
         "isNew": true,
@@ -943,10 +945,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/1.jpg",
-        "images": [
-          "/Product/1.jpg",
-          "/Product/2.jpg"
-        ],
+        "images": ["/Product/1.jpg", "/Product/2.jpg"],
         "categoryId": "19",
         "stock": 50,
         "isNew": false,
@@ -975,10 +974,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/1.jpg",
-        "images": [
-          "/Product/1.jpg",
-          "/Product/2.jpg"
-        ],
+        "images": ["/Product/1.jpg", "/Product/2.jpg"],
         "categoryId": "19",
         "stock": 50,
         "isNew": false,
@@ -1007,10 +1003,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/1.jpg",
-        "images": [
-          "/Product/1.jpg",
-          "/Product/2.jpg"
-        ],
+        "images": ["/Product/1.jpg", "/Product/2.jpg"],
         "categoryId": "19",
         "stock": 50,
         "isNew": false,
@@ -1039,10 +1032,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/3.jpg",
-        "images": [
-          "/Product/3.jpg",
-          "/Product/4.jpg"
-        ],
+        "images": ["/Product/3.jpg", "/Product/4.jpg"],
         "categoryId": "19",
         "stock": 30,
         "isNew": true,
@@ -1071,10 +1061,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/1.jpg",
-        "images": [
-          "/Product/1.jpg",
-          "/Product/2.jpg"
-        ],
+        "images": ["/Product/1.jpg", "/Product/2.jpg"],
         "categoryId": "19",
         "stock": 50,
         "isNew": false,
@@ -1103,10 +1090,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/3.jpg",
-        "images": [
-          "/Product/3.jpg",
-          "/Product/4.jpg"
-        ],
+        "images": ["/Product/3.jpg", "/Product/4.jpg"],
         "categoryId": "19",
         "stock": 30,
         "isNew": true,
@@ -1135,10 +1119,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/3.jpg",
-        "images": [
-          "/Product/3.jpg",
-          "/Product/4.jpg"
-        ],
+        "images": ["/Product/3.jpg", "/Product/4.jpg"],
         "categoryId": "19",
         "stock": 30,
         "isNew": true,
@@ -1167,10 +1148,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/1.jpg",
-        "images": [
-          "/Product/1.jpg",
-          "/Product/2.jpg"
-        ],
+        "images": ["/Product/1.jpg", "/Product/2.jpg"],
         "categoryId": "19",
         "stock": 50,
         "isNew": false,
@@ -1199,10 +1177,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/3.jpg",
-        "images": [
-          "/Product/3.jpg",
-          "/Product/4.jpg"
-        ],
+        "images": ["/Product/3.jpg", "/Product/4.jpg"],
         "categoryId": 19,
         "stock": 30,
         "isNew": true,
@@ -1231,10 +1206,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/8.jpg",
-        "images": [
-          "/Product/8.jpg",
-          "/Product/9.jpg"
-        ],
+        "images": ["/Product/8.jpg", "/Product/9.jpg"],
         "categoryId": "19",
         "stock": 25,
         "isNew": false,
@@ -1263,10 +1235,7 @@
         "price": 2500000,
         "originalPrice": 2800000,
         "image": "/Product/5.jpg",
-        "images": [
-          "/Product/5.jpg",
-          "/Product/6.jpg"
-        ],
+        "images": ["/Product/5.jpg", "/Product/6.jpg"],
         "categoryId": "15",
         "stock": 15,
         "isNew": true,
@@ -1295,10 +1264,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/6.jpg",
-        "images": [
-          "/Product/6.jpg",
-          "/Product/7.jpg"
-        ],
+        "images": ["/Product/6.jpg", "/Product/7.jpg"],
         "categoryId": "19",
         "stock": 40,
         "isNew": false,
@@ -1327,10 +1293,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/5.jpg",
-        "images": [
-          "/Product/5.jpg",
-          "/Product/6.jpg"
-        ],
+        "images": ["/Product/5.jpg", "/Product/6.jpg"],
         "categoryId": "19",
         "stock": 40,
         "isNew": false,
@@ -1692,11 +1655,33 @@
             "slug": "2"
           },
           "quantity": 1
+        },
+        {
+          "productId": "12",
+          "product": {
+            "id": "12",
+            "name": "EL GUAPO RED WINE",
+            "price": 520000,
+            "originalPrice": 580000,
+            "image": "/Product/12.jpg",
+            "category": "Rượu Vang Đỏ",
+            "description": "Rượu vang đỏ với thiết kế nhãn nghệ thuật đầy màu sắc, thể hiện tinh thần vui tươi và sáng tạo. Hương vị trái cây đậm đà.",
+            "rating": 4,
+            "reviews": 28,
+            "stock": 100,
+            "features": [
+              "Xuất xứ: Argentina",
+              "Độ cồn: 13.5%",
+              "Dung tích: 750ml",
+              "Phong cách: Artistic"
+            ]
+          },
+          "quantity": 1
         }
       ],
-      "totalPrice": 1640000,
+      "totalPrice": 2160000,
       "createdAt": "2024-02-15T08:30:00.000Z",
-      "updatedAt": "2025-11-07T08:55:32.709Z"
+      "updatedAt": "2025-12-10T03:39:07.398Z"
     },
     {
       "id": "2",
@@ -1764,10 +1749,33 @@
     {
       "id": "8bce",
       "userId": "a367",
-      "items": [],
-      "totalPrice": 0,
+      "items": [
+        {
+          "productId": "11",
+          "product": {
+            "id": "11",
+            "name": "ADMIT ONE RED BLEND",
+            "price": 750000,
+            "originalPrice": 850000,
+            "image": "/Product/11.jpg",
+            "category": "Rượu Vang Đỏ",
+            "description": "Rượu vang đỏ blend hiện đại với thiết kế nhãn độc đáo. Hương vị cân bằng giữa các giống nho khác nhau tạo nên sự phức hợp thú vị.",
+            "rating": 4,
+            "reviews": 22,
+            "stock": 400,
+            "features": [
+              "Xuất xứ: Úc",
+              "Độ cồn: 14%",
+              "Dung tích: 750ml",
+              "Phong cách: Modern Blend"
+            ]
+          },
+          "quantity": 1
+        }
+      ],
+      "totalPrice": 750000,
       "createdAt": "2025-08-10T16:02:16.441Z",
-      "updatedAt": "2025-08-10T16:02:16.441Z"
+      "updatedAt": "2025-12-10T03:41:38.594Z"
     },
     {
       "id": "6a26",
@@ -1784,6 +1792,71 @@
       "totalPrice": 0,
       "createdAt": "2025-12-10T03:28:02.963Z",
       "updatedAt": "2025-12-10T03:28:02.966Z"
+      "id": "615b",
+      "userId": "e42f",
+      "items": [],
+      "totalPrice": 0,
+      "totalItem": 0,
+      "createdAt": "2025-12-10T03:32:22.678Z",
+      "updatedAt": "2025-12-10T03:32:22.679Z"
+    },
+    {
+      "id": "0d7e",
+      "userId": "e42f",
+      "items": [],
+      "totalPrice": 0,
+      "totalItem": 0,
+      "createdAt": "2025-12-10T03:32:35.717Z",
+      "updatedAt": "2025-12-10T03:32:35.717Z"
+    },
+    {
+      "id": "07c6",
+      "userId": "e42f",
+      "items": [],
+      "totalPrice": 0,
+      "totalItem": 0,
+      "createdAt": "2025-12-10T03:32:37.420Z",
+      "updatedAt": "2025-12-10T03:32:37.420Z"
+    },
+    {
+      "id": "da73",
+      "userId": "e42f",
+      "items": [],
+      "totalPrice": 0,
+      "totalItem": 0,
+      "createdAt": "2025-12-10T03:32:47.393Z",
+      "updatedAt": "2025-12-10T03:32:47.393Z"
+    },
+    {
+      "id": "1928",
+      "userId": "98a9",
+      "items": [
+        {
+          "productId": "12",
+          "product": {
+            "id": "12",
+            "name": "EL GUAPO RED WINE",
+            "price": 520000,
+            "originalPrice": 580000,
+            "image": "/Product/12.jpg",
+            "category": "Rượu Vang Đỏ",
+            "description": "Rượu vang đỏ với thiết kế nhãn nghệ thuật đầy màu sắc, thể hiện tinh thần vui tươi và sáng tạo. Hương vị trái cây đậm đà.",
+            "rating": 4,
+            "reviews": 28,
+            "stock": 100,
+            "features": [
+              "Xuất xứ: Argentina",
+              "Độ cồn: 13.5%",
+              "Dung tích: 750ml",
+              "Phong cách: Artistic"
+            ]
+          },
+          "quantity": 1
+        }
+      ],
+      "totalPrice": 520000,
+      "createdAt": "2025-12-10T03:42:25.256Z",
+      "updatedAt": "2025-12-10T03:42:46.722Z"
     }
   ],
   "vouchers": [

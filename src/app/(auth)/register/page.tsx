@@ -75,7 +75,9 @@ export default function RegisterPage() {
         role: data.role,
         receiveNews: data.receiveNews,
       });
-      // Redirect sẽ được xử lý trong useAuth
+
+      router.push("/login");
+
     } catch (err) {
       setServerError(err instanceof Error ? err.message : "Đăng ký thất bại");
     }
