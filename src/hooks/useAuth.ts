@@ -108,21 +108,27 @@ export const useAuth = (): UseAuth => {
       setLoading(true);
       setError(null);
 
+      clearNotifications();
+      useCartStore.setState({ cart: null, isChange: false });
+      removeToken();
+      clearUser();
+
       const response = await fetch("/api/auth/logout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });
-
       if (!response.ok) {
-        const result = await response.json();
-        throw new Error(result.message || "Logout failed");
+        let message = "Logout failed";
+        try {
+          const result = await response.json();
+          if (result && typeof result === "object" && "message" in result && result.message) {
+            message = result.message;
+          }
+        } catch {
+          // Ignore JSON parsing errors and use default message
+        }
+        throw new Error(message);
       }
-
-      clearUser();
-      clearNotifications();
-      useCartStore.setState({ cart: null, isChange: false });
-      removeToken();
-
       router.push("/login");
     } catch (err: any) {
       setError(err.message || "Logout failed");
