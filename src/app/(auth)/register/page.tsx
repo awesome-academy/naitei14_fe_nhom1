@@ -5,7 +5,7 @@ import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
-import titleleftdark from "@/public/Image_Rudu/titleleft-dark.png";
+import titleleftdark from '@/public/image_Rudu/titleleft-dark.png';
 import { Checkbox } from "@/src/components/ui/checkbox";
 import {
   Select,
@@ -67,8 +67,6 @@ export default function RegisterPage() {
   const onSubmit = async (data: FormValues) => {
     try {
       setServerError(null);
-
-      // Gọi hàm đăng ký
       await register({
         email: data.email,
         password: data.password,
@@ -79,6 +77,7 @@ export default function RegisterPage() {
       });
 
       router.push("/login");
+
     } catch (err) {
       setServerError(err instanceof Error ? err.message : "Đăng ký thất bại");
     }

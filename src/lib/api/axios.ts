@@ -1,14 +1,16 @@
 import axios, {
   AxiosError,
-  InternalAxiosRequestConfig,
   AxiosResponse,
+  InternalAxiosRequestConfig,
 } from "axios";
 import { getToken } from "@/src/lib/utils";
 
+// ⚠️ Không hard-code localhost
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE;
-console.log("API Base URL:", BASE_URL);
 
-// Create public axios instance (no auth required)
+// ===== Axios instances =====
+
+// Public API (no auth)
 export const publicApi = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -16,7 +18,7 @@ export const publicApi = axios.create({
   },
 });
 
-// Create private axios instance (auth required)
+// Private API (auth required)
 export const privateApi = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -49,50 +51,48 @@ privateApi.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     return Promise.reject(error);
   };
 
-// Add response interceptor to both instances
+// ===== Response interceptors =====
+
+// Success handler
 const responseInterceptor = (response: AxiosResponse) => {
-  // Return the actual data from the response
   return response.data;
 };
 
+
 const errorInterceptor = (error: AxiosError) => {
   if (error.response) {
-    // The request was made and the server responded with a status code
-    // that falls out of the range of 2xx
-    console.error("Response Error:", error.response.data);
     return Promise.reject(error.response.data);
-  } else if (error.request) {
-    // The request was made but no response was received
-    console.error("Request Error:", error.request);
-    return Promise.reject({ message: "No response from server" });
-  } else {
-    // Something happened in setting up the request that triggered an Error
-    console.error("Error:", error.message);
-    return Promise.reject({ message: "Request failed" });
   }
+
+  if (error.request) {
+    return Promise.reject({
+      message:
+        "Không thể kết nối đến server. Vui lòng kiểm tra JSON server đang chạy.",
+    });
+  }
+
+  return Promise.reject({
+    message: error.message || "Request failed",
+  });
 };
 
-// Enhanced error interceptor for private API to handle auth errors
+// Private API error handler (xử lý thêm 401)
 const privateErrorInterceptor = (error: AxiosError) => {
   if (error.response?.status === 401) {
-    // Redirect to login page if unauthorized
-    window.location.href = "/login";
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
   }
 
-  // Use the same error handling as the general interceptor
-  if (error.response) {
-    console.error("Response Error:", error.response.data);
-    return Promise.reject(error.response.data);
-  } else if (error.request) {
-    console.error("Request Error:", error.request);
-    return Promise.reject({ message: "No response from server" });
-  } else {
-    console.error("Error:", error.message);
-    return Promise.reject({ message: "Request failed" });
-  }
+  return errorInterceptor(error);
 };
 
-publicApi.interceptors.response.use(responseInterceptor, errorInterceptor);
+// ===== Apply interceptors =====
+publicApi.interceptors.response.use(
+  responseInterceptor,
+  errorInterceptor
+);
+
 privateApi.interceptors.response.use(
   responseInterceptor,
   privateErrorInterceptor
