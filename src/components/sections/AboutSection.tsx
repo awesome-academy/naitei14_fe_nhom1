@@ -1,8 +1,11 @@
+"use client";
+
+import "@/src/i18n/i18n";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/src/components/ui/button";
-import { UI_TEXT } from "@/src/constants/ui";
+import { useTranslation } from "react-i18next";
 
 interface AboutSectionProps {
   about: {
@@ -18,14 +21,21 @@ interface AboutSectionProps {
 export default function AboutSection({
   about,
   imageUrl = "/Image_Rudu/title-dark.png",
-  buttonText = UI_TEXT.READ_MORE,
+  buttonText,
   buttonLink = "/gioi-thieu",
 }: AboutSectionProps) {
+  const { t } = useTranslation();
+  
+  // Use translation directly - same pattern as other working components
+  const defaultButtonText = buttonText || t("home.sections.readMore");
+  const displayTitle = t("home.about.api.title");
+  const displayContent = t("home.about.api.content");
+
   return (
     <section className="py-12 lg:py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8 lg:mb-12">
-          <h2 className="text-2xl lg:text-3xl font-bold mb-1">{about.title}</h2>
+          <h2 className="text-2xl lg:text-3xl font-bold mb-1">{displayTitle}</h2>
           <Image
             className="block mx-auto"
             alt="Decorative title image"
@@ -46,11 +56,11 @@ export default function AboutSection({
           </div>
           <div className="order-1 md:order-2">
             <p className="text-gray-700 leading-relaxed mb-6 text-sm lg:text-base">
-              {about.content}
+              {displayContent}
             </p>
             <Link href={buttonLink}>
               <Button className="bg-black text-white hover:bg-gray-800 w-full sm:w-auto">
-                {buttonText}
+                {defaultButtonText}
               </Button>
             </Link>
           </div>

@@ -1,19 +1,23 @@
 "use client";
 
+import "@/src/i18n/i18n";
 import BreadcrumbComponent from "@/src/components/breadcrumb/BreadcrumbComponent";
 import Image from "next/image";
 import titleleftdark from "@/public/Image_Rudu/titleleft-dark.png";
 import plant from "@/public/Image_Rudu/plant.jpg";
+import { useTranslation } from "react-i18next";
 
 export default function RenderGioiThieuPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col items-start py-4">
       <BreadcrumbComponent
-        items={[{ label: "Trang chủ", href: "/" }, { label: "Giới thiệu" }]}
+        items={[{ label: t("breadcrumb.home"), href: "/" }, { label: t("breadcrumb.about") }]}
       />
 
       <div className="my-6">
-        <h1 className="text-2xl font-semibold mb-2">GIỚI THIỆU</h1>
+        <h1 className="text-2xl font-semibold mb-2">{t("about.title")}</h1>
         <Image src={titleleftdark} alt="Underline" width={70} height={20} />
       </div>
 
@@ -32,31 +36,14 @@ export default function RenderGioiThieuPage() {
 
           <div className="space-y-6 text-xs">
             <h2 className="text-xl font-semibold text-gray-800 tracking-wider">
-              CHÀO MỪNG ĐẾN VỚI WINE HOUSE
+              {t("about.welcome")}
             </h2>
 
             <div className="space-y-0 text-gray-700 leading-relaxed">
-              <p>
-                Vang nổ Thăng Long có hương vị đặc trưng của sản phẩm lên men tự
-                nhiên từ hoa quả với độ rượu nhẹ, bọt ga dây thăng minh. Vang Nổ
-                thăng long tạo cảm giác hương phẩm, êm dịu, vui hưa.
-              </p>
-
-              <p>
-                sản phẩm được đóng chai dung tích 750ml Vang nổ Thăng Long có
-                hương vị đặc trưng của sản phẩm lên men tự nhiên từ hoa quả với
-                độ rượu nhẹ, bọt ga dây thăng minh. Vang Nổ thăng long tạo cảm
-                giác hương phẩm, êm dịu, vui hưa.
-              </p>
-
-              <p>
-                sản phẩm được đóng chai dung tích 750ml Vang nổ Thăng Long có
-                hương vị đặc trưng của sản phẩm lên men tự nhiên từ hoa quả với
-                độ rượu nhẹ, bọt ga dây thăng minh. Vang Nổ thăng long tạo cảm
-                giác hương phẩm, êm dịu, vui hưa.
-              </p>
-
-              <p>Sản phẩm được đóng chai dung tích 750ml.</p>
+              <p>{t("about.content")}</p>
+              <p>{t("about.content2")}</p>
+              <p>{t("about.content2")}</p>
+              <p>{t("about.content3")}</p>
             </div>
           </div>
         </div>

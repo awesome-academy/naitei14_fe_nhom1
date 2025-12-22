@@ -1,5 +1,6 @@
 "use client";
 
+import "@/src/i18n/i18n";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/src/components/ui/button";
@@ -13,6 +14,7 @@ import { formatCurrency } from "@/src/utils/format.currency";
 import { useProductCompareStore } from "@/src/stores/product.compare.store";
 import ProductDiscountBadge from "./ProductDiscountBadge";
 import StarRating from "./StarRating";
+import { useTranslation } from "react-i18next";
 
 interface ProductCardListProps {
   product: ApiProduct;
@@ -27,6 +29,7 @@ export default function ProductCardList({
 }: ProductCardListProps) {
   const addToCart = useAddToCart();
   const { addProduct } = useProductCompareStore();
+  const { t } = useTranslation();
 
   // Convert ApiProduct to CartProduct format
   const convertToCartProduct = (apiProduct: ApiProduct): CartProduct => {
@@ -110,7 +113,7 @@ export default function ProductCardList({
                 onClick={handleAddToCart}
               >
                 <ShoppingCart className="w-4 h-4 mr-2" />
-                Thêm vào giỏ
+                {t("product.actions.addToCart")}
               </Button>
               <Button
                 className="bg-black hover:bg-gray-800 text-white text-sm"
@@ -119,7 +122,7 @@ export default function ProductCardList({
                 }}
               >
                 <ChartColumnStacked className="w-4 h-4 mr-2" />
-                Thêm vào so sánh
+                {t("product.actions.addToCompare")}
               </Button>
               <Button
                 size="icon"

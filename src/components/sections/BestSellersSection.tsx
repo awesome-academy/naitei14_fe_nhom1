@@ -1,10 +1,13 @@
+"use client";
+
+import "@/src/i18n/i18n";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/src/components/ui/button";
 import ProductCard from "@/src/components/products/ProductCard";
 import ProductCardSkeleton from "@/src/components/products/ProductCardSkeleton";
-import { UI_TEXT } from "@/src/constants/ui";
+import { useTranslation } from "react-i18next";
 // Import type Product từ api
 import type { Product } from "@/src/lib/api";
 
@@ -18,16 +21,20 @@ interface BestSellersSectionProps {
 
 export default function BestSellersSection({
   products,
-  title = UI_TEXT.BEST_SELLERS,
+  title,
   imageUrl = "/Image_Rudu/title-dark.png",
-  buttonText = UI_TEXT.VIEW_ALL_PRODUCTS,
+  buttonText,
   buttonLink = "/products",
 }: BestSellersSectionProps) {
+  const { t } = useTranslation();
+  const defaultTitle = title || t("home.sections.bestSellers");
+  const defaultButtonText = buttonText || t("home.sections.viewAllProducts");
+
   return (
     <section className="py-12 lg:py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8 lg:mb-12">
-          <h2 className="text-2xl lg:text-3xl font-bold mb-4">{title}</h2>
+          <h2 className="text-2xl lg:text-3xl font-bold mb-4">{defaultTitle}</h2>
           <Image
             className="block mx-auto"
             alt="Decorative title image"
@@ -49,7 +56,7 @@ export default function BestSellersSection({
         <div className="text-center mt-8">
           <Link href={buttonLink}>
             <Button variant="outline" className="bg-transparent">
-              {buttonText}
+              {defaultButtonText}
             </Button>
           </Link>
         </div>

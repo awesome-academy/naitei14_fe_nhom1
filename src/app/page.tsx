@@ -26,8 +26,7 @@ export default async function HomePage() {
       getTestimonials().catch(() => []),
       getAbout().catch(() => ({
         title: "GIỚI THIỆU",
-        content:
-          "Chào mừng đến với DinkShop - nơi cung cấp những chai rượu vang tuyệt hảo từ khắp nơi trên thế giới.",
+        content: "Chào mừng đến với DinkShop - nơi cung cấp những chai rượu vang tuyệt hảo từ khắp nơi trên thế giới.",
         image: "/Image_Rudu/df3218bb45274009c6c3d5de8a6b98bf.jpg",
       })),
       getFeatured().catch(() => null),

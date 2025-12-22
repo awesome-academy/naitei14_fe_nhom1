@@ -1,5 +1,6 @@
 "use client";
 
+import "@/src/i18n/i18n";
 import { useEffect, useState } from "react";
 import { useLayoutStore } from "@/src/stores/layout.store";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -9,8 +10,10 @@ import wine404 from "@/public/Image_Rudu/wine404.png";
 import logo3 from "@/public/Image_Rudu/logo3.jpg";
 import { Input } from "@/src/components/ui/input";
 import { Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function NotFound() {
+  const { t } = useTranslation();
   const setHideHeaderFooter = useLayoutStore(
     (state) => state.setHideHeaderFooter
   );
@@ -55,22 +58,22 @@ export default function NotFound() {
         {/* Large 404 text */}
         <div className="relative mb-8 w-full h-min leading-none">
           <h1 className="text-[20rem] bg-[#E5AE49] font-semibold font-sans text-white leading-none select-none">
-            404
+            {t("notFound.title")}
           </h1>
 
           {/* Overlay text */}
           <div className="absolute inset-0 flex gap-6 items-center justify-center">
             <div className="text-black text-[10rem] font-normal italic mb-2">
-              Lỗi
+              {t("notFound.error")}
             </div>
             <div className="flex flex-col items-center bg-[#E5AE49]">
               <div className="text-black text-4xl font-light uppercase tracking-wider">
-                {failedSearch ? "KHÔNG TÌM THẤY" : "ĐÂY KHÔNG PHẢI LÀ"}
+                {failedSearch ? t("notFound.notFound") : t("notFound.notAPage")}
               </div>
               <div className="text-black text-lg md:text-4xl italic font-bold">
                 {failedSearch
-                  ? `kết quả cho "${failedSearch}"`
-                  : "trang web bạn đang tìm kiếm"}
+                  ? t("notFound.searchResult", { query: failedSearch })
+                  : t("notFound.notYourPage")}
               </div>
             </div>
           </div>
@@ -80,8 +83,7 @@ export default function NotFound() {
         {failedSearch && (
           <div className="mt-8 text-black text-lg">
             <p className="mb-4">
-              Thử tìm kiếm với từ khóa khác hoặc duyệt qua các danh mục sản phẩm
-              của chúng tôi.
+              {t("notFound.suggestion")}
             </p>
           </div>
         )}
@@ -101,19 +103,19 @@ export default function NotFound() {
             href="/"
             className="hover:underline transition-all duration-300 hover:text-gray-700"
           >
-            TRANG CHỦ ▸
+            {t("notFound.links.home")}
           </Link>
           <Link
             href="/products"
             className="hover:underline transition-all duration-300 hover:text-gray-700"
           >
-            SẢN PHẨM ▸
+            {t("notFound.links.products")}
           </Link>
           <Link
             href="/lien-he"
             className="hover:underline transition-all duration-300 hover:text-gray-700"
           >
-            LIÊN HỆ ▸
+            {t("notFound.links.contact")}
           </Link>
           <div className="flex items-center space-x-2 border-2 border-gray-300 px-4">
             <Search
@@ -124,7 +126,7 @@ export default function NotFound() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Tìm kiếm lại..."
+              placeholder={t("notFound.searchAgain")}
               className="border-none focus-visible:ring-0"
             />
           </div>

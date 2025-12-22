@@ -1,8 +1,10 @@
 "use client";
 
+import "@/src/i18n/i18n";
 import Image from "next/image";
 import { Button } from "@/src/components/ui/button";
 import { IMAGE_DIMENSIONS } from "@/src/constants/image-dimensions";
+import { useTranslation } from "react-i18next";
 
 type Category = {
   name: string;
@@ -21,10 +23,12 @@ export default function CategoryList({
   selectedCategory,
   onSelectCategory,
 }: CategoryListProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="mb-6 lg:mb-8">
       <h3 className="text-lg font-bold mb-4 border-b pb-2">
-        DANH MỤC SẢN PHẨM
+        {t("product.sidebar.categories")}
         <Image
           src="/Image_Rudu/titleleft-dark.png"
           alt="arrow-trang-tri"

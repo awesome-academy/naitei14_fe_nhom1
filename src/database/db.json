@@ -116,7 +116,10 @@
       "lastName": "knk",
       "avatar": "placeholder/avatar.png",
       "role": "customer",
-      "receiveNews": false
+      "receiveNews": false,
+      "twoFactorEnabled": false
+    },
+    {
       "id": "98a9",
       "email": "duyetleminh@gmail.com",
       "password": "123456",
@@ -1792,6 +1795,8 @@
       "totalPrice": 0,
       "createdAt": "2025-12-10T03:28:02.963Z",
       "updatedAt": "2025-12-10T03:28:02.966Z"
+    },
+    {
       "id": "615b",
       "userId": "e42f",
       "items": [],
