@@ -25,8 +25,13 @@ export function useNextAuthSync() {
     }
     // Priority 2: Traditional cookie session (fallback)
     else if (status === "unauthenticated" && !user) {
-      console.log("Loading traditional session to Zustand");
-      initUser();
+      const currentPath = window.location.pathname;
+      const authPathPattern = /^\/(login|register|two-factor|forgot-password|reset-password)(\/|$)/;
+      const isAuthPage = authPathPattern.test(currentPath);
+      
+      if (!isAuthPage) {
+        initUser();
+      }
     }
   }, [session?.user?.id, status, user?.id]); // Only depend on IDs and status
 
