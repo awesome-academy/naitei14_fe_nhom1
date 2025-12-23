@@ -1,5 +1,5 @@
 "use client";
-
+import "@/src/i18n/i18n";
 import BreadcrumbComponent from "@/src/components/breadcrumb/BreadcrumbComponent";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
@@ -28,6 +28,7 @@ import { z } from "zod";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const formSchema = z
   .object({
@@ -50,6 +51,7 @@ export default function RegisterPage() {
   const { register, loading, error } = useAuth();
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -86,17 +88,17 @@ export default function RegisterPage() {
   return (
     <div className="flex flex-col items-start py-4">
       <BreadcrumbComponent
-        items={[{ label: "Trang chủ", href: "/" }, { label: "Đăng ký" }]}
+        items={[{ label: t("breadcrumb.home"), href: "/" }, { label: t("auth.register.title") }]}
       />
 
       <div className="flex justify-between w-full my-6">
         <div>
-          <h1 className="text-2xl font-semibold mb-2">ĐĂNG KÝ</h1>
+          <h1 className="text-2xl font-semibold mb-2">{t("auth.register.title")}</h1>
           <Image src={titleleftdark} alt="Underline" width={70} height={20} />
         </div>
         <Link href="/login">
           <Button className="bg-black text-white text-sm px-7 py-5 rounded-none cursor-pointer hover:bg-gray-700">
-            ĐĂNG NHẬP
+            {t("auth.login.title")}
           </Button>
         </Link>
       </div>
@@ -104,7 +106,7 @@ export default function RegisterPage() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <div className="w-full flex flex-col gap-8 border px-12 py-8">
-            <h1 className="font-semibold">THÔNG TIN CÁ NHÂN</h1>
+            <h1 className="font-semibold">{t("auth.register.section.personal")}</h1>
 
             <FormField
               control={form.control}
@@ -112,7 +114,7 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem className="flex justify-between items-center">
                   <FormLabel className="text-sm text-nowrap" required>
-                    Tên trước
+                    {t("auth.register.firstName")}
                   </FormLabel>
                   <FormControl>
                     <Input {...field} className="w-[90%] rounded-none" />
@@ -128,7 +130,7 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem className="flex justify-between items-center">
                   <FormLabel className="text-sm text-nowrap" required>
-                    Tên sau
+                    {t("auth.register.lastName")}
                   </FormLabel>
                   <FormControl>
                     <Input {...field} className="w-[90%] rounded-none" />
@@ -144,7 +146,7 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem className="flex justify-between items-center">
                   <FormLabel className="text-sm text-nowrap" required>
-                    Email
+                    {t("auth.login.email")}
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -164,7 +166,7 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem className="flex gap-10">
                   <FormLabel className="text-sm text-nowrap" required>
-                    Vai trò
+                    {t("auth.register.role")}
                   </FormLabel>
                   <Select
                     onValueChange={field.onChange}
@@ -172,12 +174,12 @@ export default function RegisterPage() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Chọn vai trò" />
+                        <SelectValue placeholder={t("auth.register.role")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="rounded-none">
-                      <SelectItem value="admin">Quản trị viên</SelectItem>
-                      <SelectItem value="customer">Khách hàng</SelectItem>
+                      <SelectItem value="admin">{t("auth.register.role.admin")}</SelectItem>
+                      <SelectItem value="customer">{t("auth.register.role.customer")}</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -198,13 +200,13 @@ export default function RegisterPage() {
                     />
                   </FormControl>
                   <FormLabel className="text-sm text-nowrap">
-                    Đăng ký nhận bản tin
+                    {t("auth.register.newsletter")}
                   </FormLabel>
                 </FormItem>
               )}
             />
 
-            <h1 className="font-semibold">THÔNG TIN ĐĂNG NHẬP</h1>
+            <h1 className="font-semibold">{t("auth.register.section.loginInfo")}</h1>
 
             <FormField
               control={form.control}
@@ -212,7 +214,7 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem className="flex justify-between items-center">
                   <FormLabel className="text-sm text-nowrap" required>
-                    Mật khẩu
+                    {t("auth.register.password")}
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -232,7 +234,7 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem className="flex justify-between items-center gap-6">
                   <FormLabel className="text-sm text-nowrap" required>
-                    Xác nhận mật khẩu
+                    {t("auth.register.confirmPassword")}
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -256,14 +258,14 @@ export default function RegisterPage() {
                 disabled={loading}
                 className="bg-black text-white text-xs px-3 py-1 rounded-none cursor-pointer hover:bg-gray-700"
               >
-                {loading ? "ĐANG XỬ LÝ..." : "GỬI"}
+                {loading ? t("auth.register.processing") : t("auth.register.submit")}
               </Button>
               <Button
                 type="button"
                 onClick={() => router.back()}
                 className="bg-black text-white text-xs px-3 py-1 rounded-none cursor-pointer hover:bg-gray-700"
               >
-                QUAY LẠI
+                {t("auth.register.back")}
               </Button>
             </div>
           </div>

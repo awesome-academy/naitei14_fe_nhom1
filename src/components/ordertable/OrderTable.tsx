@@ -1,3 +1,6 @@
+"use client";
+
+import "@/src/i18n/i18n";
 import {
   Table,
   TableBody,
@@ -9,6 +12,7 @@ import {
 import Image from "next/image";
 import { Product } from "@/src/types/product.types";
 import { formatCurrency } from "@/src/utils/format.currency";
+import { useTranslation } from "react-i18next";
 
 export interface ProductItem {
   id: string;
@@ -20,15 +24,18 @@ export interface OrderTableProps {
   data: ProductItem[];
   footer?: React.ReactNode;
 }
-export const headers = [
-  { label: "ẢNH" },
-  { label: "TÊN SẢN PHẨM" },
-  { label: "GIÁ" },
-  { label: "SỐ LƯỢNG" },
-  { label: "TỔNG TIỀN" },
-];
+
 const OrderTable = (props: OrderTableProps) => {
   const { data, footer } = props;
+  const { t } = useTranslation();
+
+  const headers = [
+    { label: t("order.table.image") },
+    { label: t("order.table.name") },
+    { label: t("order.table.price") },
+    { label: t("order.table.quantity") },
+    { label: t("order.table.total") },
+  ];
 
   return (
     <Table>
@@ -51,7 +58,7 @@ const OrderTable = (props: OrderTableProps) => {
                   colSpan={headers.length}
                   className="text-center text-red-500"
                 >
-                  Không tìm thấy thông tin sản phẩm cho ID: {item.id}
+                  {t("order.table.productNotFound", { id: item.id })}
                 </TableCell>
               </TableRow>
             );

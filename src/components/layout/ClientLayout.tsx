@@ -1,5 +1,6 @@
 "use client";
 
+import "@/src/i18n/i18n";
 import { usePathname } from "next/navigation";
 import Header from "./Header";
 import Footer from "./Footer";

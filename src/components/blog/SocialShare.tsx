@@ -1,6 +1,8 @@
 'use client'
+import "@/src/i18n/i18n";
 import { Button } from "@/src/components/ui/button"
 import { Facebook, Twitter } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 interface SocialShareProps {
     title?: string
@@ -9,10 +11,12 @@ interface SocialShareProps {
 }
 
 const SocialShare = ({
-    title = "Chia sẻ:",
+    title,
     url = typeof window !== 'undefined' ? window.location.href : '',
     className = ""
 }: SocialShareProps) => {
+    const { t } = useTranslation();
+    const displayTitle = title || t("blog.socialShare.title");
     const shareOnFacebook = () => {
         const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
         window.open(facebookUrl, '_blank', 'width=600,height=400')
@@ -31,7 +35,7 @@ const SocialShare = ({
     return (
         <div className={`mt-8 lg:mt-12 pt-6 border-t ${className}`}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="font-medium text-gray-700">{title}</div>
+                <div className="font-medium text-gray-700">{displayTitle}</div>
                 <div className="flex space-x-2">
                     <Button
                         size="sm"

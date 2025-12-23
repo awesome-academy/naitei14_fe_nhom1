@@ -1,19 +1,23 @@
 "use client";
 
+import "@/src/i18n/i18n";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const menuItems = [
-  { label: "TRANG CHỦ", href: "/" },
-  { label: "RƯỢU VANG ĐỎ", href: "/" },
-  { label: "RƯỢU VANG TRẮNG", href: "/" },
-  { label: "CHAMPAGNE", href: "/products?category=Champagne" },
-  { label: "GIỚI THIỆU", href: "/about" },
-  { label: "BLOG", href: "/blog" },
-  { label: "LIÊN HỆ", href: "/contact" },
+  { labelKey: "header.menu.home", href: "/" },
+  { labelKey: "header.menu.redWine", href: "/" },
+  { labelKey: "header.menu.whiteWine", href: "/" },
+  { labelKey: "header.menu.champagne", href: "/products?category=Champagne" },
+  { labelKey: "header.menu.about", href: "/about" },
+  { labelKey: "header.menu.blog", href: "/blog" },
+  { labelKey: "header.menu.contact", href: "/contact" },
 ];
 
 const MainNavbar = () => {
+  const { t } = useTranslation();
+
   return (
     <header className="bg-black text-white sticky top-0 z-50">
       <div className="container mx-auto px-4">
@@ -34,11 +38,11 @@ const MainNavbar = () => {
           <nav className="hidden xl:flex items-center space-x-6 2xl:space-x-8">
             {menuItems.map((item) => (
               <Link
-                key={item.label}
+                key={item.labelKey}
                 href={item.href}
                 className="hover:text-yellow-500 transition-colors font-medium"
               >
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             ))}
           </nav>

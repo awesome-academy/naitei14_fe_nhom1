@@ -1,5 +1,6 @@
 "use client";
 
+import "@/src/i18n/i18n";
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -12,8 +13,10 @@ import ProductToolbar from "@/src/components/products/ProductToolbar";
 import ProductGrid from "@/src/components/products/ProductGrid";
 import ProductCompareButton from "@/src/components/ProductCompareButton";
 import ProductEmptyState from "@/src/components/products/ProductEmptyState";
+import { useTranslation } from "react-i18next";
 
 export default function ProductsPage() {
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -47,29 +50,29 @@ export default function ProductsPage() {
   }, [searchQuery, urlSearchQuery, selectedCategory]);
 
   const categories = [
-    { name: "Tất cả", value: "all", count: products.length },
+    { name: t("product.categories.all"), value: "all", count: products.length },
     {
-      name: "Rượu Vang Đỏ",
+      name: t("product.categories.redWine"),
       value: "Rượu Vang Đỏ",
       count: products.filter((p) => p.category === "Rượu Vang Đỏ").length,
     },
     {
-      name: "Rượu Vang Trắng",
+      name: t("product.categories.whiteWine"),
       value: "Rượu Vang Trắng",
       count: products.filter((p) => p.category === "Rượu Vang Trắng").length,
     },
     {
-      name: "Champagne",
+      name: t("product.categories.champagne"),
       value: "Champagne",
       count: products.filter((p) => p.category === "Champagne").length,
     },
     {
-      name: "Rượu Vang Rosé",
+      name: t("product.categories.rose"),
       value: "Rượu Vang Rosé",
       count: products.filter((p) => p.category === "Rượu Vang Rosé").length,
     },
     {
-      name: "Rượu Vang Ngọt",
+      name: t("product.categories.sweet"),
       value: "Rượu Vang Ngọt",
       count: products.filter((p) => p.category === "Rượu Vang Ngọt").length,
     },
@@ -135,16 +138,16 @@ export default function ProductsPage() {
 
   // Prepare breadcrumb items
   const breadcrumbItems: Array<{ label: string; href?: string }> = [
-    { label: "Trang chủ", href: "/" },
+    { label: t("breadcrumb.home"), href: "/" },
   ];
 
   if (selectedCategory !== "all") {
     // Khi có category được chọn, "Sản phẩm" là link và category là trang hiện tại
-    breadcrumbItems.push({ label: "Sản phẩm", href: "/products" });
-    breadcrumbItems.push({ label: selectedCategory });
+    breadcrumbItems.push({ label: t("breadcrumb.products"), href: "/products" });
+    breadcrumbItems.push({ label: categories.find(c => c.value === selectedCategory)?.name || selectedCategory });
   } else {
     // Khi không có category (all), "Sản phẩm" là trang hiện tại
-    breadcrumbItems.push({ label: "Sản phẩm" });
+    breadcrumbItems.push({ label: t("breadcrumb.products") });
   }
 
   return (

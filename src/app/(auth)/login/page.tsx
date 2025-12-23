@@ -1,5 +1,6 @@
 "use client";
 
+import "@/src/i18n/i18n";
 import BreadcrumbComponent from "@/src/components/breadcrumb/BreadcrumbComponent";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
@@ -22,6 +23,7 @@ import { useAuth } from "@/src/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { OAuthButtons } from "@/src/components/auth";
+import { useTranslation } from "react-i18next";
 
 const formSchema = z.object({
   email: z.email("Email không hợp lệ"),
@@ -30,10 +32,11 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const { login, loading } = useAuth();
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -59,17 +62,17 @@ export default function RegisterPage() {
   return (
     <div className="flex flex-col items-start py-4">
       <BreadcrumbComponent
-        items={[{ label: "Trang chủ", href: "/" }, { label: "Đăng nhập" }]}
+        items={[{ label: t("breadcrumb.home"), href: "/" }, { label: t("auth.login.title") }]}
       />
 
       <div className="flex justify-between w-full my-6">
         <div>
-          <h1 className="text-2xl font-semibold mb-2">ĐĂNG NHẬP</h1>
+          <h1 className="text-2xl font-semibold mb-2">{t("auth.login.title")}</h1>
           <Image src={titleleftdark} alt="Underline" width={70} height={20} />
         </div>
         <Link href="/register">
           <Button className="bg-black text-white text-sm px-7 py-5 rounded-none cursor-pointer hover:bg-gray-700">
-            ĐĂNG KÝ
+            {t("auth.register.title")}
           </Button>
         </Link>
       </div>
@@ -78,9 +81,9 @@ export default function RegisterPage() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <div className="w-full flex flex-col gap-8 border px-12 py-8">
             <div className="flex flex-col gap-2">
-              <h1 className="font-semibold">KHÁCH HÀNG ĐĂNG NHẬP</h1>
+              <h1 className="font-semibold">{t("auth.login.title")}</h1>
               <h2 className="text-sm text-nowrap">
-                Nếu bạn có một tài khoản, xin vui lòng đăng nhập
+                {t("auth.login.subtitle")}
               </h2>
             </div>
 
@@ -90,7 +93,7 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem className="flex justify-between items-center">
                   <FormLabel className="text-sm text-nowrap" required>
-                    Email
+                    {t("auth.login.email")}
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -110,7 +113,7 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem className="flex justify-between items-center">
                   <FormLabel className="text-sm text-nowrap" required>
-                    Password
+                    {t("auth.login.password")}
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -130,14 +133,14 @@ export default function RegisterPage() {
                   <Checkbox className="border-gray-500 size-3 rounded-none" />
                 </FormControl>
                 <FormLabel className="text-sm text-nowrap">
-                  Ghi nhớ đăng nhập
+                  {t("auth.login.remember")}
                 </FormLabel>
               </div>
               <Link
                 href="/forgot-password"
                 className="text-sm text-blue-600 hover:text-blue-800"
               >
-                Quên mật khẩu?
+                {t("auth.login.forgotPassword")}
               </Link>
             </div>
 
@@ -150,7 +153,7 @@ export default function RegisterPage() {
               disabled={loading}
               className="w-min bg-black text-white text-xs mx-20 px-4 py-1 rounded-none cursor-pointer hover:bg-gray-700"
             >
-              {loading ? "ĐANG XỬ LÝ..." : "ĐĂNG NHẬP"}
+              {loading ? t("auth.login.processing") : t("auth.login.button")}
             </Button>
 
             {/* OAuth Login Buttons */}

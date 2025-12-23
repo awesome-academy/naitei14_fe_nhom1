@@ -1,3 +1,5 @@
+// Note: These will be translated in the component using them
+// Keep original values for API compatibility
 export const paymentOptions = [
   { label: "Thanh toán khi nhận hàng", value: "Thanh toán khi nhận hàng" },
 ];

@@ -1,5 +1,6 @@
 "use client";
 
+import "@/src/i18n/i18n";
 import BreadcrumbComponent from "@/src/components/breadcrumb/BreadcrumbComponent";
 import Image from "next/image";
 import titleleftdark from "@/public/Image_Rudu/titleleft-dark.png";
@@ -32,19 +33,21 @@ import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/src/utils/format.currency";
 import { useRequireAuth } from "@/src/hooks/useRequireAuth";
 import { useCartStore } from "@/src/stores/cart.store";
+import { useTranslation } from "react-i18next";
 const CartPage = () => {
   const router = useRouter();
   const { cart, setCart, isChange, setIsChange } = useCartStore();
   const ready = useRequireAuth();
+  const { t } = useTranslation();
 
-  const cartLabel = useMemo(
+  const cartLabelKeys = useMemo(
     () => [
-      { label: "ẢNH" },
-      { label: "TÊN SẢN PHẨM" },
-      { label: "GIÁ" },
-      { label: "SỐ LƯỢNG" },
-      { label: "TỔNG TIỀN" },
-      { label: "XÓA" },
+      "cart.columns.image",
+      "cart.columns.name",
+      "cart.columns.price",
+      "cart.columns.quantity",
+      "cart.columns.total",
+      "cart.columns.delete",
     ],
     []
   );
@@ -71,22 +74,22 @@ const CartPage = () => {
     const updatedItems = cart.items.filter((_, i) => i !== index);
     setCart({ ...cart, items: updatedItems });
     setIsChange(true);
-    toast.success("Đã xóa sản phẩm khỏi giỏ hàng");
+    toast.success(t("cart.toast.removeItemSuccess"));
   };
 
   const handleClearCart = () => {
     if (!cart) {
-      toast.error("Không tìm thấy giỏ hàng để xóa");
+      toast.error(t("cart.toast.noCartToDelete"));
       return;
     }
     setCart({ ...cart, items: [] });
     setIsChange(true);
-    toast.success("Đã xóa tất cả sản phẩm khỏi giỏ hàng");
+    toast.success(t("cart.toast.clearSuccess"));
   };
 
   const handleSaveCart = async () => {
     if (!cart) {
-      toast.error("Không tìm thấy giỏ hàng để cập nhật");
+      toast.error(t("cart.toast.noCartToUpdate"));
       return;
     }
 
@@ -100,10 +103,10 @@ const CartPage = () => {
         `${process.env.NEXT_PUBLIC_API_BASE}/carts/${cart.id}`,
         updatedCart
       );
-      toast.success("Cập nhật giỏ hàng thành công");
+      toast.success(t("cart.toast.updateSuccess"));
       setIsChange(false);
     } catch (error) {
-      toast.error("Có lỗi xảy ra khi cập nhật giỏ hàng");
+      toast.error(t("cart.toast.updateError"));
       console.error(error);
       throw error;
     }
@@ -118,19 +121,22 @@ const CartPage = () => {
   return (
     <div className="py-6">
       <BreadcrumbComponent
-        items={[{ label: "Trang chủ", href: "/" }, { label: "Giỏ hàng" }]}
+        items={[
+          { label: t("breadcrumb.home"), href: "/" },
+          { label: t("cart.breadcrumb.title") },
+        ]}
       />
       <div className="my-6">
-        <h1 className="text-2xl font-semibold mb-2">GIỎ HÀNG</h1>
+        <h1 className="text-2xl font-semibold mb-2">{t("cart.title")}</h1>
         <Image src={titleleftdark} alt="Underline" width={70} height={20} />
       </div>
 
       <Table>
         <TableHeader>
           <TableRow>
-            {cartLabel.map((item, index) => (
+            {cartLabelKeys.map((key) => (
               <TableCell key={index} className="font-semibold text-center">
-                {item.label}
+                {t(key)}
               </TableCell>
             ))}
           </TableRow>
@@ -138,8 +144,8 @@ const CartPage = () => {
         <TableBody>
           {!cart || cart?.items.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={cartLabel.length} className="text-center">
-                Giỏ hàng của bạn đang trống
+              <TableCell colSpan={cartLabelKeys.length} className="text-center">
+                {t("cart.empty")}
               </TableCell>
             </TableRow>
           ) : (
@@ -188,10 +194,10 @@ const CartPage = () => {
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     }
-                    title="Xóa sản phẩm"
-                    description="Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?"
-                    confirmText="Xóa"
-                    cancelText="Hủy"
+                    title={t("cart.dialog.removeItem.title")}
+                    description={t("cart.dialog.removeItem.description")}
+                    confirmText={t("cart.dialog.removeItem.confirm")}
+                    cancelText={t("cart.dialog.removeItem.cancel")}
                     onConfirm={() => handleRemoveItem(index)}
                   />
                 </TableCell>
@@ -204,7 +210,7 @@ const CartPage = () => {
       <div className="flex justify-end items-center gap-4 mt-6">
         <Link href="/">
           <Button className="cursor-pointer bg-black text-white hover:bg-gray-800">
-            Tiếp tục mua hàng
+            {t("cart.buttons.continueShopping")}
           </Button>
         </Link>
         <ConfirmDialog
@@ -213,13 +219,13 @@ const CartPage = () => {
               disabled={cart?.items.length === 0}
               className="cursor-pointer bg-black text-white hover:bg-gray-800"
             >
-              Xóa
+              {t("cart.buttons.delete")}
             </Button>
           }
-          title="Xóa giỏ hàng"
-          description="Bạn có chắc chắn muốn xóa tất cả sản phẩm trong giỏ hàng?"
-          confirmText="Xóa"
-          cancelText="Hủy"
+          title={t("cart.dialog.clear.title")}
+          description={t("cart.dialog.clear.description")}
+          confirmText={t("cart.dialog.clear.confirm")}
+          cancelText={t("cart.dialog.clear.cancel")}
           onConfirm={handleClearCart}
         />
         <Button
@@ -227,7 +233,7 @@ const CartPage = () => {
           className="cursor-pointer bg-black text-white hover:bg-gray-800"
           onClick={handleSaveCart}
         >
-          Cập nhật
+          {t("cart.buttons.update")}
         </Button>
         <Drawer>
           <DrawerTrigger asChild>
@@ -236,17 +242,18 @@ const CartPage = () => {
               variant="outline"
               className="cursor-pointer bg-black hover:bg-gray-800 text-white hover:text-white"
             >
-              Tiến hành đặt hàng
+                  {t("cart.buttons.proceed")}
             </Button>
           </DrawerTrigger>
           <DrawerContent>
             <div className="max-w-md mx-auto">
               <DrawerHeader>
-                <DrawerTitle>Xác nhận đơn hàng</DrawerTitle>
+                <DrawerTitle>{t("cart.confirm.title")}</DrawerTitle>
                 <DrawerDescription>
-                  Bạn có chắc chắn muốn đặt hàng với các sản phẩm đã chọn?
+                  {t("cart.confirm.description")}
                   <br />
-                  <strong>Tổng tiền:</strong> {formatCurrency(cart?.totalPrice)}
+                  <strong>{t("cart.confirm.total")}</strong>{" "}
+                  {formatCurrency(cart?.totalPrice)}
                 </DrawerDescription>
               </DrawerHeader>
               <DrawerFooter>
@@ -254,10 +261,12 @@ const CartPage = () => {
                   className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-md text-center"
                   onClick={handleConfirmOrder}
                 >
-                  Xác nhận đặt hàng
+                  {t("cart.confirm.button")}
                 </Button>
                 <DrawerClose asChild>
-                  <Button variant="outline">Đóng</Button>
+                  <Button variant="outline">
+                    {t("cart.confirm.close")}
+                  </Button>
                 </DrawerClose>
               </DrawerFooter>
             </div>

@@ -1,11 +1,13 @@
 "use client";
 
+import "@/src/i18n/i18n";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import type { FeaturedProduct as FeaturedProductType } from "@/src/lib/api";
 import { ShoppingCart } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface CountdownItemProps {
   value: number;
@@ -26,10 +28,12 @@ interface FeaturedProductProps {
 }
 
 export default function FeaturedProduct({ product }: FeaturedProductProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 lg:p-8 max-w-sm lg:max-w-md mx-auto text-center">
       <Badge className="bg-yellow-500 text-black mb-4 text-xs lg:text-sm">
-        SALE
+        {t("home.sections.sale")}
       </Badge>
       <Image
         src={product.image || "/placeholder.svg"}
@@ -55,14 +59,14 @@ export default function FeaturedProduct({ product }: FeaturedProductProps) {
       <Link href={`/products/${product.id}`}>
         <Button className="bg-black text-white hover:bg-gray-800 w-full mb-4 text-sm lg:text-base">
           <ShoppingCart className="w-4 h-4 mr-2" />
-          Xem chi tiết
+          {t("home.sections.viewDetails")}
         </Button>
       </Link>
       <div className="grid grid-cols-4 gap-1 lg:gap-2 text-center text-xs lg:text-sm">
-        <CountdownItem value={product.countdown.days} label="DAYS" />
-        <CountdownItem value={product.countdown.hours} label="HOURS" />
-        <CountdownItem value={product.countdown.minutes} label="MINS" />
-        <CountdownItem value={product.countdown.seconds} label="SECS" />
+        <CountdownItem value={product.countdown.days} label={t("home.sections.countdown.days")} />
+        <CountdownItem value={product.countdown.hours} label={t("home.sections.countdown.hours")} />
+        <CountdownItem value={product.countdown.minutes} label={t("home.sections.countdown.minutes")} />
+        <CountdownItem value={product.countdown.seconds} label={t("home.sections.countdown.seconds")} />
       </div>
     </div>
   );
