@@ -30,23 +30,20 @@ export const privateApi = axios.create({
 privateApi.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const userData = getToken();
 
-  console.log("1. Checking LocalStorage...");
-  console.log("2. Raw userData returned from getToken():", userData);
-
   if (userData) {
     config.headers["X-User-Id"] = userData.id;
 
     const token = (userData as any).accessToken || (userData as any).token;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    console.log("3. Token extracted:", token);
 
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     } else {
-      console.error("❌ CÓ USER NHƯNG KHÔNG CÓ TOKEN!");
+      console.warn("⚠️ User found but no token available");
     }
   } else {
-    console.error("❌ KHÔNG TÌM THẤY USER DATA TỪ getToken()");
+    if (process.env.NODE_ENV === "development") {
+      console.warn("⚠️ No user data found in localStorage for private API call");
+    }
   }
   return config;
 }),

@@ -22,15 +22,14 @@ export const useUserStore = create<UserState>((set, get) => ({
   },
 
   clearUser: async () => {
-    removeToken();
-    set({ user: null });
-
-    // Also sign out from NextAuth if needed
     try {
       await signOut({ redirect: false });
     } catch (error) {
       // Silently handle - no NextAuth session is expected behavior
     }
+
+    removeToken();
+    set({ user: null });
   },
 
   initUser: () => {
@@ -60,6 +59,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         receiveNews: false,
         twoFactorEnabled: false,
       };
+      setToken(nextAuthUser);
       set({ user: nextAuthUser });
     }
   },

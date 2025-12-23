@@ -35,10 +35,8 @@ function isOAuthAccountValid(
     case "github":
       return (
         !profile?.suspended_at &&
-        profile?.state !== "suspended" &&
-        profile?.state !== "disabled" &&
-        !!profile?.email &&
-        profile?.verified
+        profile?.type === "User" &&
+        !!profile?.email
       );
     default:
       return true;
@@ -124,36 +122,56 @@ export const authOptions: NextAuthOptions = {
 
           let existingUser = null;
           try {
-            const response = await fetch(
-              `${
-                process.env.NEXTAUTH_URL
-              }/api/users/by-email/${encodeURIComponent(user.email!)}`
-            );
-            if (response.ok) {
-              const result = await response.json();
-              existingUser = result.success ? result.data : null;
+            const response = await publicApi.get(`/users?email=${encodeURIComponent(user.email!)}`);
+            
+            const users = Array.isArray(response) 
+              ? response 
+              : (response?.data || response);
+            
+            if (users && Array.isArray(users) && users.length > 0) {
+              existingUser = users[0];
+            } else {
+              existingUser = null;
             }
           } catch (error) {
-            // User doesn't exist, will create new one
             existingUser = null;
           }
 
           if (!existingUser) {
-            // Create new user for OAuth
-            const newUser = {
-              email: user.email,
-              password: "oauth-user", // OAuth users don't need password
-              firstName: user.name?.split(" ")[0] || "OAuth",
-              lastName: user.name?.split(" ").slice(1).join(" ") || "User",
-              avatar: user.image || "placeholder/avatar.png",
-              role: "customer",
-              receiveNews: false,
-              twoFactorEnabled: false,
-            };
+            try {
+              const doubleCheckResponse = await publicApi.get(`/users?email=${encodeURIComponent(user.email!)}`);
+              
+              const doubleCheckUsers = Array.isArray(doubleCheckResponse) 
+                ? doubleCheckResponse 
+                : (doubleCheckResponse?.data || doubleCheckResponse);
+              
+              if (doubleCheckUsers && Array.isArray(doubleCheckUsers) && doubleCheckUsers.length > 0) {
+                existingUser = doubleCheckUsers[0];
+              } else {
+                const newUser = {
+                  email: user.email,
+                  password: null,
+                  firstName: user.name?.split(" ")[0] || "OAuth",
+                  lastName: user.name?.split(" ").slice(1).join(" ") || "User",
+                  avatar: user.image || "placeholder/avatar.png",
+                  role: "customer",
+                  receiveNews: false,
+                  twoFactorEnabled: false,
+                };
 
-            await publicApi.post("/users", newUser);
+                const createResponse = await publicApi.post("/users", newUser);
+                const createdUser = Array.isArray(createResponse)
+                  ? createResponse[0]
+                  : (createResponse?.data || createResponse);
+                if (!createdUser || !createdUser.id) {
+                  throw new Error("Failed to create user during OAuth sign-in.");
+                }
+                existingUser = createdUser;
+              }
+            } catch (doubleCheckError) {
+              throw doubleCheckError;
+            }
           }
-
           return true;
         } catch (error) {
           return false;
@@ -169,25 +187,22 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
       }
 
-      // For OAuth users, fetch user data from database using email-specific endpoint
       if (account?.provider === "google" || account?.provider === "github") {
         try {
-          const response = await fetch(
-            `${
-              process.env.NEXTAUTH_URL
-            }/api/users/by-email/${encodeURIComponent(token.email!)}`
-          );
+          const response = await publicApi.get(`/users?email=${token.email}`);
+          
+          const users = Array.isArray(response) 
+            ? response 
+            : (response?.data || response);
 
-          if (response.ok) {
-            const result = await response.json();
-            const dbUser = result.success ? result.data : null;
-
-            if (dbUser) {
-              token.role = dbUser.role;
-              token.id = dbUser.id;
-            }
+          if (users && Array.isArray(users) && users.length > 0) {
+            const dbUser = users[0];
+            token.role = dbUser.role;
+            token.id = dbUser.id;
           }
-        } catch (error) {}
+        } catch (error) {
+          // Ignore errors and proceed
+        }
       }
 
       return token;

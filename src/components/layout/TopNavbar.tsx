@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { ROUTE_MAP } from "@/src/constants/route-map";
 import LanguageSwitcher from "@/src/components/layout/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
+import { ThemeSwitcher } from "@/src/components/theme";
 
 const commonNavItems = [
   { href: "/account", labelKey: "header.nav.account" },
@@ -58,17 +59,22 @@ const TopNavbar = () => {
       // Check if there are any products matching the search
       // Import products to check if search has results
       const { products } = require("@/src/lib/products");
-      const hasProductResults = products.some((product: any) =>
-        product.name.toLowerCase().includes(query) ||
-        product.description?.toLowerCase().includes(query)
+      const hasProductResults = products.some(
+        (product: any) =>
+          product.name.toLowerCase().includes(query) ||
+          product.description?.toLowerCase().includes(query)
       );
 
       if (hasProductResults) {
         // If products found, go to product search
-        router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+        router.push(
+          `/products?search=${encodeURIComponent(searchQuery.trim())}`
+        );
       } else {
         // If no products found, go to 404 with search info
-        router.push(`/not-found?search=${encodeURIComponent(searchQuery.trim())}`);
+        router.push(
+          `/not-found?search=${encodeURIComponent(searchQuery.trim())}`
+        );
       }
     }
 
@@ -110,6 +116,7 @@ const TopNavbar = () => {
               </Link>
             ))
           )}
+          <ThemeSwitcher />
         </div>
 
         <div className="flex items-center space-x-4">
