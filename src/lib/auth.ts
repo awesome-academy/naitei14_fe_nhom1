@@ -1,6 +1,7 @@
 import { NextAuthOptions, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { publicApi } from "./api/axios";
 
@@ -20,6 +21,8 @@ declare module "next-auth" {
   }
 }
 
+export const OAUTH_PROVIDERS = ["google", "github", "facebook"];
+
 function isOAuthAccountValid(
   provider: string,
   profile: any,
@@ -37,6 +40,11 @@ function isOAuthAccountValid(
         !profile?.suspended_at &&
         profile?.type === "User" &&
         !!profile?.email
+      );
+    case "facebook":
+      return (
+        !!profile?.email &&
+        !profile?.is_silhouette
       );
     default:
       return true;
@@ -61,6 +69,16 @@ export const authOptions: NextAuthOptions = {
       authorization: {
         params: {
           scope: "read:user user:email",
+        },
+      },
+    }),
+
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID!,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          scope: "email public_profile",
         },
       },
     }),
@@ -114,10 +132,10 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     async signIn({ user, account, profile }) {
-      if (account?.provider === "google" || account?.provider === "github") {
+      if (account && OAUTH_PROVIDERS.includes(account.provider)) {
         try {
           if (!isOAuthAccountValid(account.provider, profile, user)) {
-            return `/auth/error?error=AccountSuspended`;
+            return `/auth/error?error=AccountNotEligible`;
           }
 
           let existingUser = null;
@@ -187,7 +205,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
       }
 
-      if (account?.provider === "google" || account?.provider === "github") {
+      if (account && OAUTH_PROVIDERS.includes(account.provider)) {
         try {
           const response = await publicApi.get(`/users?email=${token.email}`);
           
