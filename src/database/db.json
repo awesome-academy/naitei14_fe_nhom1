@@ -1,17 +1,6 @@
 {
   "users": [
     {
-      "id": "1",
-      "email": "admin@drinkshop.com",
-      "password": "123",
-      "firstName": "Admin",
-      "lastName": "User",
-      "avatar": "placeholder/avatar.png",
-      "role": "admin",
-      "receiveNews": true,
-      "twoFactorEnabled": false
-    },
-    {
       "id": "2",
       "email": "dominhhieu192004@gmail.com",
       "password": "Hieu@2004",
@@ -243,24 +232,6 @@
   ],
   "products": [
     {
-      "id": "2",
-      "name": "RAMONDA ROURES",
-      "price": 680000,
-      "originalPrice": 750000,
-      "image": "/Product/2.jpg",
-      "category": "Rượu Vang Đỏ",
-      "description": "Rượu vang đỏ cao cấp với thiết kế nhãn nghệ thuật độc đáo. Hương vị phức hợp với note của trái cây chín và gia vị.okk",
-      "rating": 5,
-      "reviews": 18,
-      "stock": 100,
-      "features": [
-        "Xuất xứ: Tây Ban Nha",
-        "Độ cồn: 14%",
-        "Dung tích: 750ml",
-        "Thời gian ủ: 12 tháng"
-      ]
-    },
-    {
       "id": "3",
       "name": "TORELLO MOSAICS 05",
       "price": 590000,
@@ -478,6 +449,32 @@
         "Dung tích: 750ml",
         "Giống nho: Sauvignon Blanc"
       ]
+    },
+    {
+      "id": "86e8",
+      "name": "rtyui",
+      "description": "6789",
+      "price": 67890,
+      "originalPrice": 67,
+      "category": "Rượu Vang Trắng",
+      "stock": 567,
+      "rating": 0,
+      "reviews": 0,
+      "image": "",
+      "features": []
+    },
+    {
+      "id": "08f3",
+      "name": "11111111",
+      "description": "1111",
+      "price": 1111,
+      "originalPrice": 1111,
+      "category": "Rượu Vang Rosé",
+      "stock": 1111,
+      "rating": 0,
+      "reviews": 0,
+      "image": "",
+      "features": []
     }
   ],
   "categories": [
@@ -921,7 +918,7 @@
     {
       "id": "2",
       "orderId": "1",
-      "productId": "2",
+      "productId": null,
       "product": {
         "id": "2",
         "name": "Rượu vang Đà Lạt Reserve",
@@ -1049,7 +1046,7 @@
     {
       "id": "6",
       "orderId": "4",
-      "productId": "2",
+      "productId": null,
       "product": {
         "id": "2",
         "name": "Rượu vang Đà Lạt Reserve",
@@ -1113,7 +1110,7 @@
     {
       "id": "8",
       "orderId": "5",
-      "productId": "2",
+      "productId": null,
       "product": {
         "id": "2",
         "name": "Rượu vang Đà Lạt Reserve",
@@ -1145,7 +1142,7 @@
     {
       "id": "9",
       "orderId": "6",
-      "productId": "2",
+      "productId": null,
       "product": {
         "id": "2",
         "name": "Rượu vang Đà Lạt Reserve",
@@ -1976,7 +1973,7 @@
       "id": "ed15",
       "userId": "2",
       "orderId": "1",
-      "productId": "2",
+      "productId": null,
       "rating": 4,
       "comment": "ngon",
       "createdAt": "2025-08-01T11:35:52.485Z"
@@ -1996,7 +1993,7 @@
     {
       "id": "3",
       "userId": 3,
-      "productId": "2"
+      "productId": null
     },
     {
       "id": "4",
@@ -2016,7 +2013,7 @@
     {
       "id": "7",
       "userId": 5,
-      "productId": "2"
+      "productId": null
     },
     {
       "id": "8",
@@ -2066,7 +2063,7 @@
     {
       "id": "17",
       "userId": 11,
-      "productId": "2"
+      "productId": null
     },
     {
       "id": "18",
