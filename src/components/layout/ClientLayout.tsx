@@ -21,13 +21,11 @@ function LayoutContent({ children }: ClientLayoutProps) {
   const userId = useUserStore((state) => state.user?.id);
   const fetchCart = useCartStore((state) => state.fetchCart);
 
-  // Sync NextAuth with Zustand (this handles initUser internally)
   useNextAuthSync();
 
   const shouldHideHeaderFooter =
     pathname?.startsWith("/admin") || hideHeaderFooter;
 
-  // Lấy cart khi đã có userId
   useEffect(() => {
     if (userId) {
       fetchCart(userId);
@@ -38,7 +36,15 @@ function LayoutContent({ children }: ClientLayoutProps) {
     <>
       {!shouldHideHeaderFooter && <Header />}
       <Toaster position="top-right" richColors />
-      <div className={shouldHideHeaderFooter ? "" : "px-72"}>{children}</div>
+      <div
+        className={
+          shouldHideHeaderFooter
+            ? ""
+            : "px-4 md:px-10 lg:px-20 xl:px-40 2xl:px-72"
+        }
+      >
+        {children}
+      </div>
       {!shouldHideHeaderFooter && <Footer />}
     </>
   );

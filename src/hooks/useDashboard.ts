@@ -43,14 +43,21 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE;
 export const useDashboard = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [chartData, setChartData] = useState<ChartData | null>(null);
-  const [bestSellingProducts, setBestSellingProducts] = useState<BestSellingProduct[]>([]);
+  const [bestSellingProducts, setBestSellingProducts] = useState<
+    BestSellingProduct[]
+  >([]);
   const [categoryStats, setCategoryStats] = useState<CategoryStats[]>([]);
-  const [orderStatusStats, setOrderStatusStats] = useState<OrderStatusStats[]>([]);
+  const [orderStatusStats, setOrderStatusStats] = useState<OrderStatusStats[]>(
+    []
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchChartData = async (orders: any[], period: 'week' | 'month' = 'week') => {
-    if (period === 'week') {
+  const fetchChartData = async (
+    orders: any[],
+    period: "week" | "month" = "week"
+  ) => {
+    if (period === "week") {
       const last7Days = Array.from({ length: 7 }, (_, i) => {
         const date = new Date();
         date.setDate(date.getDate() - (6 - i));
@@ -130,19 +137,24 @@ export const useDashboard = () => {
     }
   };
 
-  const fetchDashboardData = async (chartPeriod: 'week' | 'month' = 'week') => {
+  const fetchDashboardData = async (chartPeriod: "week" | "month" = "week") => {
     try {
       setLoading(true);
       setError(null);
 
-      const [usersResponse, ordersResponse, commentsResponse, productsResponse, orderDetailsResponse] =
-        await Promise.all([
-          axios.get(`${API_BASE_URL}/users`),
-          axios.get(`${API_BASE_URL}/orders`),
-          axios.get(`${API_BASE_URL}/reviews`),
-          axios.get(`${API_BASE_URL}/products`),
-          axios.get(`${API_BASE_URL}/orderDetails`),
-        ]);
+      const [
+        usersResponse,
+        ordersResponse,
+        commentsResponse,
+        productsResponse,
+        orderDetailsResponse,
+      ] = await Promise.all([
+        axios.get(`${API_BASE_URL}/users`),
+        axios.get(`${API_BASE_URL}/orders`),
+        axios.get(`${API_BASE_URL}/reviews`),
+        axios.get(`${API_BASE_URL}/products`),
+        axios.get(`${API_BASE_URL}/orderDetails`),
+      ]);
 
       const users = usersResponse.data;
       const orders = ordersResponse.data;
@@ -153,17 +165,22 @@ export const useDashboard = () => {
       const totalUsers = users.length;
       const totalOrders = orders.length;
       const totalProducts = products.length;
-      const completedOrders = orders.filter((order: any) => order.status === "Đã hoàn thành").length;
-      const pendingOrders = orders.filter((order: any) => order.status === "Đang xử lý").length;
-      
+      const completedOrders = orders.filter(
+        (order: any) => order.status === "Đã hoàn thành"
+      ).length;
+      const pendingOrders = orders.filter(
+        (order: any) => order.status === "Đang xử lý"
+      ).length;
+
       const totalRevenue = orders
         .filter((order: any) => order.status === "Đã hoàn thành")
         .reduce((sum: number, order: any) => sum + (order.totalPrice || 0), 0);
 
-      const averageOrderValue = completedOrders > 0 ? totalRevenue / completedOrders : 0;
+      const averageOrderValue =
+        completedOrders > 0 ? totalRevenue / completedOrders : 0;
 
       const totalComments = comments.length;
-      
+
       setStats({
         totalUsers,
         totalRevenue,
@@ -176,8 +193,11 @@ export const useDashboard = () => {
       });
 
       // Calculate best selling products
-      const productSales = new Map<string, { name: string; totalSold: number; revenue: number; image: string }>();
-      
+      const productSales = new Map<
+        string,
+        { name: string; totalSold: number; revenue: number; image: string }
+      >();
+
       orderDetails.forEach((detail: any) => {
         const order = orders.find((o: any) => o.id === detail.orderId);
         if (order?.status === "Đã hoàn thành") {
@@ -202,18 +222,24 @@ export const useDashboard = () => {
         .map(([id, data]) => ({ id, ...data }))
         .sort((a, b) => b.totalSold - a.totalSold)
         .slice(0, 5);
-      
+
       setBestSellingProducts(bestSelling);
 
       // Calculate category statistics
-      const categorySales = new Map<string, { totalSold: number; revenue: number }>();
-      
+      const categorySales = new Map<
+        string,
+        { totalSold: number; revenue: number }
+      >();
+
       orderDetails.forEach((detail: any) => {
         const order = orders.find((o: any) => o.id === detail.orderId);
         if (order?.status === "Đã hoàn thành") {
           const product = products.find((p: any) => p.id === detail.productId);
           if (product?.category) {
-            const existing = categorySales.get(product.category) || { totalSold: 0, revenue: 0 };
+            const existing = categorySales.get(product.category) || {
+              totalSold: 0,
+              revenue: 0,
+            };
             categorySales.set(product.category, {
               totalSold: existing.totalSold + detail.quantity,
               revenue: existing.revenue + (detail.totalPrice || 0),
@@ -225,7 +251,6 @@ export const useDashboard = () => {
       const categoryData = Array.from(categorySales.entries())
         .map(([name, data]) => ({ name, ...data }))
         .sort((a, b) => b.revenue - a.revenue);
-      
       setCategoryStats(categoryData);
 
       // Calculate order status statistics
@@ -242,7 +267,6 @@ export const useDashboard = () => {
           percentage: (count / totalOrders) * 100,
         }))
         .sort((a, b) => b.count - a.count);
-      
       setOrderStatusStats(statusData);
 
       // Fetch chart data based on period
@@ -268,7 +292,7 @@ export const useDashboard = () => {
     loading,
     error,
     refreshData: fetchDashboardData,
-    updateChartPeriod: async (period: 'week' | 'month') => {
+    updateChartPeriod: async (period: "week" | "month") => {
       setLoading(true);
       try {
         const ordersResponse = await axios.get(`${API_BASE_URL}/orders`);

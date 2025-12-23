@@ -1,7 +1,15 @@
 import { useMemo } from "react";
 import Head from "next/head";
 import { FaMoneyBill1Wave } from "react-icons/fa6";
-import { FaUser, FaShoppingCart, FaComment, FaSync, FaBox, FaCheckCircle, FaClock } from "react-icons/fa";
+import {
+  FaUser,
+  FaShoppingCart,
+  FaComment,
+  FaSync,
+  FaBox,
+  FaCheckCircle,
+  FaClock,
+} from "react-icons/fa";
 import { RiAdminLine } from "react-icons/ri";
 import { Button } from "@/src/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -13,20 +21,20 @@ import { ExportData } from "./ExportData";
 import { BestSellingProducts } from "./BestSellingProducts";
 import { CategoryStatsChart } from "./CategoryStatsChart";
 import { OrderStatusChart } from "./OrderStatusChart";
-import AdminPageLayout from '@/src/components/layout/AdminPageLayout';
+import AdminPageLayout from "@/src/components/layout/AdminPageLayout";
 
 export default function Dashboard() {
   const router = useRouter();
-  const { 
-    stats, 
-    chartData, 
-    bestSellingProducts, 
-    categoryStats, 
-    orderStatusStats, 
-    loading, 
-    error, 
+  const {
+    stats,
+    chartData,
+    bestSellingProducts,
+    categoryStats,
+    orderStatusStats,
+    loading,
+    error,
     refreshData,
-    updateChartPeriod
+    updateChartPeriod,
   } = useDashboard();
 
   const formatNumber = (num: number): string => {
@@ -145,9 +153,12 @@ export default function Dashboard() {
 
         <main className="p-6 overflow-auto">
           <StatsCard stats={dashboardStats} />
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            <BestSellingProducts products={bestSellingProducts} loading={loading} />
+            <BestSellingProducts
+              products={bestSellingProducts}
+              loading={loading}
+            />
             <OrderStatusChart statusData={orderStatusStats} loading={loading} />
           </div>
 
@@ -155,9 +166,9 @@ export default function Dashboard() {
             <CategoryStatsChart categories={categoryStats} loading={loading} />
           </div>
 
-          <RevenueChart 
-            chartData={chartData || {}} 
-            loading={loading} 
+          <RevenueChart
+            chartData={chartData || {}}
+            loading={loading}
             onPeriodChange={updateChartPeriod}
           />
         </main>

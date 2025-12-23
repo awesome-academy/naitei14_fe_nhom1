@@ -60,7 +60,6 @@ export const useUserStore = create<UserState>((set, get) => ({
         receiveNews: false,
         twoFactorEnabled: false,
       };
-      
       setToken(nextAuthUser);
       set({ user: nextAuthUser });
     }

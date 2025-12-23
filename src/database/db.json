@@ -117,6 +117,8 @@
       "avatar": "placeholder/avatar.png",
       "role": "customer",
       "receiveNews": false
+    },
+    {
       "id": "98a9",
       "email": "duyetleminh@gmail.com",
       "password": "123456",
@@ -898,10 +900,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/1.jpg",
-        "images": [
-          "/Product/1.jpg",
-          "/Product/2.jpg"
-        ],
+        "images": ["/Product/1.jpg", "/Product/2.jpg"],
         "categoryId": "19",
         "stock": 50,
         "isNew": false,
@@ -930,10 +929,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/3.jpg",
-        "images": [
-          "/Product/3.jpg",
-          "/Product/4.jpg"
-        ],
+        "images": ["/Product/3.jpg", "/Product/4.jpg"],
         "categoryId": "19",
         "stock": 30,
         "isNew": true,
@@ -962,10 +958,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/1.jpg",
-        "images": [
-          "/Product/1.jpg",
-          "/Product/2.jpg"
-        ],
+        "images": ["/Product/1.jpg", "/Product/2.jpg"],
         "categoryId": "19",
         "stock": 50,
         "isNew": false,
@@ -994,10 +987,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/1.jpg",
-        "images": [
-          "/Product/1.jpg",
-          "/Product/2.jpg"
-        ],
+        "images": ["/Product/1.jpg", "/Product/2.jpg"],
         "categoryId": "19",
         "stock": 50,
         "isNew": false,
@@ -1026,10 +1016,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/1.jpg",
-        "images": [
-          "/Product/1.jpg",
-          "/Product/2.jpg"
-        ],
+        "images": ["/Product/1.jpg", "/Product/2.jpg"],
         "categoryId": "19",
         "stock": 50,
         "isNew": false,
@@ -1058,10 +1045,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/3.jpg",
-        "images": [
-          "/Product/3.jpg",
-          "/Product/4.jpg"
-        ],
+        "images": ["/Product/3.jpg", "/Product/4.jpg"],
         "categoryId": "19",
         "stock": 30,
         "isNew": true,
@@ -1090,10 +1074,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/1.jpg",
-        "images": [
-          "/Product/1.jpg",
-          "/Product/2.jpg"
-        ],
+        "images": ["/Product/1.jpg", "/Product/2.jpg"],
         "categoryId": "19",
         "stock": 50,
         "isNew": false,
@@ -1122,10 +1103,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/3.jpg",
-        "images": [
-          "/Product/3.jpg",
-          "/Product/4.jpg"
-        ],
+        "images": ["/Product/3.jpg", "/Product/4.jpg"],
         "categoryId": "19",
         "stock": 30,
         "isNew": true,
@@ -1154,10 +1132,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/3.jpg",
-        "images": [
-          "/Product/3.jpg",
-          "/Product/4.jpg"
-        ],
+        "images": ["/Product/3.jpg", "/Product/4.jpg"],
         "categoryId": "19",
         "stock": 30,
         "isNew": true,
@@ -1186,10 +1161,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/1.jpg",
-        "images": [
-          "/Product/1.jpg",
-          "/Product/2.jpg"
-        ],
+        "images": ["/Product/1.jpg", "/Product/2.jpg"],
         "categoryId": "19",
         "stock": 50,
         "isNew": false,
@@ -1218,10 +1190,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/3.jpg",
-        "images": [
-          "/Product/3.jpg",
-          "/Product/4.jpg"
-        ],
+        "images": ["/Product/3.jpg", "/Product/4.jpg"],
         "categoryId": 19,
         "stock": 30,
         "isNew": true,
@@ -1250,10 +1219,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/8.jpg",
-        "images": [
-          "/Product/8.jpg",
-          "/Product/9.jpg"
-        ],
+        "images": ["/Product/8.jpg", "/Product/9.jpg"],
         "categoryId": "19",
         "stock": 25,
         "isNew": false,
@@ -1282,10 +1248,7 @@
         "price": 2500000,
         "originalPrice": 2800000,
         "image": "/Product/5.jpg",
-        "images": [
-          "/Product/5.jpg",
-          "/Product/6.jpg"
-        ],
+        "images": ["/Product/5.jpg", "/Product/6.jpg"],
         "categoryId": "15",
         "stock": 15,
         "isNew": true,
@@ -1314,10 +1277,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/6.jpg",
-        "images": [
-          "/Product/6.jpg",
-          "/Product/7.jpg"
-        ],
+        "images": ["/Product/6.jpg", "/Product/7.jpg"],
         "categoryId": "19",
         "stock": 40,
         "isNew": false,
@@ -1346,10 +1306,7 @@
         "price": 370000,
         "originalPrice": 450000,
         "image": "/Product/5.jpg",
-        "images": [
-          "/Product/5.jpg",
-          "/Product/6.jpg"
-        ],
+        "images": ["/Product/5.jpg", "/Product/6.jpg"],
         "categoryId": "19",
         "stock": 40,
         "isNew": false,
@@ -1742,10 +1699,33 @@
     {
       "id": "2",
       "userId": "3",
-      "items": [],
-      "totalPrice": 0,
+      "items": [
+        {
+          "productId": "9",
+          "product": {
+            "id": "9",
+            "name": "ROOT:1 CABERNET SAUVIGNON",
+            "price": 1580000,
+            "originalPrice": 1750000,
+            "image": "/Product/9.jpg",
+            "category": "Rượu Vang Đỏ",
+            "description": "Rượu vang đỏ cao cấp từ nho Cabernet Sauvignon, ủ trong thùng gỗ sồi với thiết kế chai sang trọng và hương vị đẳng cấp.",
+            "rating": 5,
+            "reviews": 8,
+            "stock": 100,
+            "features": [
+              "Xuất xứ: Úc",
+              "Độ cồn: 14.5%",
+              "Dung tích: 750ml",
+              "Thời gian ủ: 18 tháng"
+            ]
+          },
+          "quantity": 2
+        }
+      ],
+      "totalPrice": 3160000,
       "createdAt": "2024-03-10T10:15:00.000Z",
-      "updatedAt": "2024-03-10T10:15:00.000Z"
+      "updatedAt": "2025-12-23T06:09:08.192Z"
     },
     {
       "id": "3",
@@ -1848,6 +1828,8 @@
       "totalPrice": 0,
       "createdAt": "2025-12-10T03:28:02.963Z",
       "updatedAt": "2025-12-10T03:28:02.966Z"
+    },
+    {
       "id": "615b",
       "userId": "e42f",
       "items": [],

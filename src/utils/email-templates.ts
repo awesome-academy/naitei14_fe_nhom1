@@ -1,7 +1,12 @@
-import { EmailTemplate, EmailTemplateType, WelcomeEmailData, OrderConfirmationEmailData, 
-  ResetPasswordEmailData } from '@/src/types/email';
+import {
+  EmailTemplate,
+  EmailTemplateType,
+  WelcomeEmailData,
+  OrderConfirmationEmailData,
+  ResetPasswordEmailData,
+} from "@/src/types/email";
 
-const getBaseTemplate = (content: string, title: string = 'DrinkShop') => `
+const getBaseTemplate = (content: string, title: string = "DrinkShop") => `
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -114,32 +119,44 @@ const getWelcomeTemplate = (data: WelcomeEmailData): EmailTemplate => {
         <li>🎁 Nhận thông tin khuyến mãi độc quyền</li>
         <li>⭐ Đánh giá và review sản phẩm</li>
     </ul>
-    ${data.verificationLink ? `
+    ${
+      data.verificationLink
+        ? `
     <p>Để hoàn tất việc đăng ký, vui lòng xác thực email của bạn:</p>
-    <a href="${escapeHtml(data.verificationLink)}" class="button">Xác thực Email</a>
-    ` : ''}
+    <a href="${escapeHtml(
+      data.verificationLink
+    )}" class="button">Xác thực Email</a>
+    `
+        : ""
+    }
     <p>Chúc bạn có những trải nghiệm tuyệt vời tại DrinkShop!</p>
   `;
 
   return {
-    subject: 'Chào mừng bạn đến với DrinkShop! 🍹',
-    html: getBaseTemplate(content, 'Chào mừng đến với DrinkShop'),
-    text: `Chào mừng ${data.name} đến với DrinkShop! Cảm ơn bạn đã đăng ký tài khoản.`
+    subject: "Chào mừng bạn đến với DrinkShop! 🍹",
+    html: getBaseTemplate(content, "Chào mừng đến với DrinkShop"),
+    text: `Chào mừng ${data.name} đến với DrinkShop! Cảm ơn bạn đã đăng ký tài khoản.`,
   };
 };
 
-const getOrderConfirmationTemplate = (data: OrderConfirmationEmailData): EmailTemplate => {
-  const itemsHtml = data.items.map(item => `
+const getOrderConfirmationTemplate = (
+  data: OrderConfirmationEmailData
+): EmailTemplate => {
+  const itemsHtml = data.items
+    .map(
+      (item) => `
     <div class="order-item">
       <div>
         <strong>${item.name}</strong><br>
         Số lượng: ${item.quantity}
       </div>
       <div>
-        ${(item.price * item.quantity).toLocaleString('vi-VN')}₫
+        ${(item.price * item.quantity).toLocaleString("vi-VN")}₫
       </div>
     </div>
-  `).join('');
+  `
+    )
+    .join("");
 
   const content = `
     <h2>Xác nhận đơn hàng #${data.orderNumber} 📦</h2>
@@ -155,7 +172,7 @@ const getOrderConfirmationTemplate = (data: OrderConfirmationEmailData): EmailTe
     ${itemsHtml}
     
     <div class="total">
-      Tổng cộng: ${data.total.toLocaleString('vi-VN')}₫
+      Tổng cộng: ${data.total.toLocaleString("vi-VN")}₫
     </div>
     
     <p>Chúng tôi sẽ thông báo cho bạn khi đơn hàng được giao đến shipper.</p>
@@ -164,12 +181,16 @@ const getOrderConfirmationTemplate = (data: OrderConfirmationEmailData): EmailTe
 
   return {
     subject: `Xác nhận đơn hàng #${data.orderNumber} - DrinkShop`,
-    html: getBaseTemplate(content, 'Xác nhận đơn hàng'),
-    text: `Đơn hàng #${data.orderNumber} của bạn đã được xác nhận. Tổng: ${data.total.toLocaleString('vi-VN')}₫`
+    html: getBaseTemplate(content, "Xác nhận đơn hàng"),
+    text: `Đơn hàng #${
+      data.orderNumber
+    } của bạn đã được xác nhận. Tổng: ${data.total.toLocaleString("vi-VN")}₫`,
   };
 };
 
-const getResetPasswordTemplate = (data: ResetPasswordEmailData): EmailTemplate => {
+const getResetPasswordTemplate = (
+  data: ResetPasswordEmailData
+): EmailTemplate => {
   const content = `
     <h2>Đặt lại mật khẩu 🔐</h2>
     <p>Xin chào ${escapeHtml(data.name)},</p>
@@ -186,41 +207,70 @@ const getResetPasswordTemplate = (data: ResetPasswordEmailData): EmailTemplate =
     </ul>
     
     <p>Nếu nút không hoạt động, bạn có thể copy và dán link sau vào trình duyệt:</p>
-    <p style="word-break: break-all; color: #666;">${escapeHtml(data.resetLink)}</p>
+    <p style="word-break: break-all; color: #666;">${escapeHtml(
+      data.resetLink
+    )}</p>
   `;
 
   return {
-    subject: 'Đặt lại mật khẩu - DrinkShop',
-    html: getBaseTemplate(content, 'Đặt lại mật khẩu'),
-    text: `Đặt lại mật khẩu cho tài khoản DrinkShop. Link: ${data.resetLink} (Hết hạn: ${data.expirationTime})`
+    subject: "Đặt lại mật khẩu - DrinkShop",
+    html: getBaseTemplate(content, "Đặt lại mật khẩu"),
+    text: `Đặt lại mật khẩu cho tài khoản DrinkShop. Link: ${data.resetLink} (Hết hạn: ${data.expirationTime})`,
   };
 };
 
-const getOrderStatusUpdateTemplate = (data: { orderNumber: string; customerName: string; status: 'confirmed' | 'rejected'; reason?: string; }): EmailTemplate => {
+const getOrderStatusUpdateTemplate = (data: {
+  orderNumber: string;
+  customerName: string;
+  status: "confirmed" | "rejected";
+  reason?: string;
+}): EmailTemplate => {
   const content = `
     <h2>Cập nhật trạng thái đơn hàng #${escapeHtml(data.orderNumber)} 📦</h2>
     <p>Xin chào ${escapeHtml(data.customerName)},</p>
-    <p>Đơn hàng của bạn đã <strong>${data.status === 'confirmed' ? 'được xác nhận' : 'bị từ chối'}</strong>.</p>
-    ${data.status === 'rejected' && data.reason ? `<p><strong>Lý do từ chối:</strong> ${escapeHtml(data.reason)}</p>` : ''}
+    <p>Đơn hàng của bạn đã <strong>${
+      data.status === "confirmed" ? "được xác nhận" : "bị từ chối"
+    }</strong>.</p>
+    ${
+      data.status === "rejected" && data.reason
+        ? `<p><strong>Lý do từ chối:</strong> ${escapeHtml(data.reason)}</p>`
+        : ""
+    }
     <p>Cảm ơn bạn đã mua sắm tại DrinkShop!</p>
   `;
 
   return {
     subject: `Cập nhật trạng thái đơn hàng #${data.orderNumber}`,
-    html: getBaseTemplate(content, 'Cập nhật trạng thái đơn hàng'),
-    text: `Đơn hàng #${data.orderNumber} đã được ${data.status === 'confirmed' ? 'xác nhận' : 'từ chối'}.`
+    html: getBaseTemplate(content, "Cập nhật trạng thái đơn hàng"),
+    text: `Đơn hàng #${data.orderNumber} đã được ${
+      data.status === "confirmed" ? "xác nhận" : "từ chối"
+    }.`,
   };
 };
 
-const getMonthlyRevenueReportTemplate = (data: { month: string; totalRevenue: number; topProducts: { name: string; revenue: number; }[]; }): EmailTemplate => {
-  const topProductsHtml = data.topProducts.map(product => `
-    <li>${escapeHtml(product.name)}: ${product.revenue.toLocaleString('vi-VN')}₫</li>
-  `).join('');
+const getMonthlyRevenueReportTemplate = (data: {
+  month: string;
+  totalRevenue: number;
+  topProducts: { name: string; revenue: number }[];
+}): EmailTemplate => {
+  const topProductsHtml = data.topProducts
+    .map(
+      (product) => `
+    <li>${escapeHtml(product.name)}: ${product.revenue.toLocaleString(
+        "vi-VN"
+      )}₫</li>
+  `
+    )
+    .join("");
 
   const content = `
     <h2>Báo cáo doanh thu tháng ${escapeHtml(data.month)} 📊</h2>
     <p>Xin chào,</p>
-    <p>Doanh thu tháng ${escapeHtml(data.month)} của bạn là <strong>${data.totalRevenue.toLocaleString('vi-VN')}₫</strong>.</p>
+    <p>Doanh thu tháng ${escapeHtml(
+      data.month
+    )} của bạn là <strong>${data.totalRevenue.toLocaleString(
+    "vi-VN"
+  )}₫</strong>.</p>
     <h3>Sản phẩm bán chạy:</h3>
     <ul>
       ${topProductsHtml}
@@ -230,8 +280,10 @@ const getMonthlyRevenueReportTemplate = (data: { month: string; totalRevenue: nu
 
   return {
     subject: `Báo cáo doanh thu tháng ${data.month}`,
-    html: getBaseTemplate(content, 'Báo cáo doanh thu'),
-    text: `Doanh thu tháng ${data.month}: ${data.totalRevenue.toLocaleString('vi-VN')}₫.`
+    html: getBaseTemplate(content, "Báo cáo doanh thu"),
+    text: `Doanh thu tháng ${data.month}: ${data.totalRevenue.toLocaleString(
+      "vi-VN"
+    )}₫.`,
   };
 };
 
@@ -240,16 +292,29 @@ export const getEmailTemplate = async <T>(
   data: T
 ): Promise<EmailTemplate> => {
   switch (templateType) {
-    case 'welcome':
+    case "welcome":
       return getWelcomeTemplate(data as WelcomeEmailData);
-    case 'order-confirmation':
+    case "order-confirmation":
       return getOrderConfirmationTemplate(data as OrderConfirmationEmailData);
-    case 'reset-password':
+    case "reset-password":
       return getResetPasswordTemplate(data as ResetPasswordEmailData);
-    case 'order-status-update':
-      return getOrderStatusUpdateTemplate(data as { orderNumber: string; customerName: string; status: 'confirmed' | 'rejected'; reason?: string; });
-    case 'monthly-revenue-report':
-      return getMonthlyRevenueReportTemplate(data as { month: string; totalRevenue: number; topProducts: { name: string; revenue: number; }[]; });
+    case "order-status-update":
+      return getOrderStatusUpdateTemplate(
+        data as {
+          orderNumber: string;
+          customerName: string;
+          status: "confirmed" | "rejected";
+          reason?: string;
+        }
+      );
+    case "monthly-revenue-report":
+      return getMonthlyRevenueReportTemplate(
+        data as {
+          month: string;
+          totalRevenue: number;
+          topProducts: { name: string; revenue: number }[];
+        }
+      );
     default:
       throw new Error(`Unknown email template type: ${templateType}`);
   }

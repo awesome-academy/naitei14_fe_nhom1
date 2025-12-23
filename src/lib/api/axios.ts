@@ -42,7 +42,9 @@ privateApi.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     }
   } else {
     if (process.env.NODE_ENV === "development") {
-      console.warn("⚠️ No user data found in localStorage for private API call");
+      console.warn(
+        "⚠️ No user data found in localStorage for private API call"
+      );
     }
   }
   return config;
@@ -57,7 +59,6 @@ privateApi.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 const responseInterceptor = (response: AxiosResponse) => {
   return response.data;
 };
-
 
 const errorInterceptor = (error: AxiosError) => {
   if (error.response) {
@@ -88,10 +89,7 @@ const privateErrorInterceptor = (error: AxiosError) => {
 };
 
 // ===== Apply interceptors =====
-publicApi.interceptors.response.use(
-  responseInterceptor,
-  errorInterceptor
-);
+publicApi.interceptors.response.use(responseInterceptor, errorInterceptor);
 
 privateApi.interceptors.response.use(
   responseInterceptor,

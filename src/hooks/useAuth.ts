@@ -121,7 +121,12 @@ export const useAuth = (): UseAuth => {
         let message = "Logout failed";
         try {
           const result = await response.json();
-          if (result && typeof result === "object" && "message" in result && result.message) {
+          if (
+            result &&
+            typeof result === "object" &&
+            "message" in result &&
+            result.message
+          ) {
             message = result.message;
           }
         } catch {

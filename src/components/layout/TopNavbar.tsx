@@ -24,8 +24,8 @@ const guestNavItems = [
   { href: "/register", label: "Đăng ký" },
 ];
 
-// Route mappings for smart search
 const routeMap = ROUTE_MAP;
+
 const TopNavbar = () => {
   const { user } = useUserStore();
   const { logout } = useAuth();
@@ -42,18 +42,12 @@ const TopNavbar = () => {
 
   const handleSearch = () => {
     if (!searchQuery.trim()) return;
-
     const query = searchQuery.trim().toLowerCase();
-
-    // Check if the search query matches any route
     const matchedRoute = routeMap[query as keyof typeof routeMap];
 
     if (matchedRoute) {
-      // Navigate to the matched route
       router.push(matchedRoute);
     } else {
-      // Check if there are any products matching the search
-      // Import products to check if search has results
       const { products } = require("@/src/lib/products");
       const hasProductResults = products.some(
         (product: any) =>
@@ -62,77 +56,73 @@ const TopNavbar = () => {
       );
 
       if (hasProductResults) {
-        // If products found, go to product search
         router.push(
           `/products?search=${encodeURIComponent(searchQuery.trim())}`
         );
       } else {
-        // If no products found, go to 404 with search info
-        router.push(
-          `/not-found?search=${encodeURIComponent(searchQuery.trim())}`
-        );
       }
+      setSearchQuery("");
     }
 
-    // Clear search after navigation
-    setSearchQuery("");
-  };
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        handleSearch();
+      }
+    };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  };
-
-  return (
-    <nav className="w-full bg-background border-b px-72">
-      <div className="flex justify-between items-center h-7 text-xs tracking-tight">
-        <div className="flex items-center space-x-6 text-foreground">
-          {commonNavItems.map((item) => (
-            <Link key={item.href} href={item.href} className="hover:underline">
-              {item.label}
-            </Link>
-          ))}
-          {user ? (
-            <Button
-              variant="link"
-              className="text-xs p-0 h-auto cursor-pointer text-red-700"
-              onClick={handleLogout}
-            >
-              Đăng xuất
-            </Button>
-          ) : (
-            guestNavItems.map((item) => (
+    return (
+      <nav className="w-full bg-background border-b px-4 md:px-10 lg:px-20 xl:px-40 2xl:px-72">
+        <div className="flex flex-col md:flex-row justify-between items-center py-2 md:h-9 text-xs tracking-tight gap-3">
+          <div className="flex items-center space-x-4 md:space-x-6 text-foreground overflow-x-auto no-scrollbar w-full md:w-auto whitespace-nowrap pb-2 md:pb-0">
+            {commonNavItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="hover:underline"
+                className="hover:underline shrink-0"
               >
                 {item.label}
               </Link>
-            ))
-          )}
-          <ThemeSwitcher />
-        </div>
+            ))}
+            {user ? (
+              <Button
+                variant="link"
+                className="text-xs p-0 h-auto cursor-pointer text-red-700 shrink-0"
+                onClick={handleLogout}
+              >
+                Đăng xuất
+              </Button>
+            ) : (
+              guestNavItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="hover:underline shrink-0"
+                >
+                  {item.label}
+                </Link>
+              ))
+            )}
+            <ThemeSwitcher />
+          </div>
 
-        <div className="flex items-center space-x-2">
-          <div className="relative">
-            <Input
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="placeholder:text-xs placeholder:italic placeholder:text-gray-400 border-none focus-visible:ring-0 pr-8 w-48"
-              placeholder="Tìm kiếm sản phẩm hoặc điều hướng..."
-            />
-            <Search
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 size-4 cursor-pointer text-gray-400 hover:text-gray-600 transition-colors"
-              onClick={handleSearch}
-            />
+          <div className="flex items-center w-full md:w-auto">
+            <div className="relative w-full md:w-48">
+              <Input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="h-7 placeholder:text-[10px] md:placeholder:text-xs placeholder:italic placeholder:text-gray-400 border-none focus-visible:ring-1 pr-8 w-full bg-muted/50"
+                placeholder="Tìm kiếm..."
+              />
+              <Search
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 size-4 cursor-pointer text-gray-400 hover:text-gray-600 transition-colors"
+                onClick={handleSearch}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
-  );
+      </nav>
+    );
+  };
 };
-
 export default TopNavbar;

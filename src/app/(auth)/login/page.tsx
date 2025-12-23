@@ -24,13 +24,13 @@ import { useState } from "react";
 import { OAuthButtons } from "@/src/components/auth";
 
 const formSchema = z.object({
-  email: z.email("Email không hợp lệ"),
+  email: z.string().email("Email không hợp lệ"),
   password: z.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const { login, loading } = useAuth();
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
@@ -50,25 +50,26 @@ export default function RegisterPage() {
         email: data.email,
         password: data.password,
       });
-      // Redirect sẽ được xử lý trong useAuth
     } catch (err) {
       setServerError(err instanceof Error ? err.message : "Đăng nhập thất bại");
     }
   };
 
   return (
-    <div className="flex flex-col items-start py-4">
+    <div className="flex flex-col items-start py-4 px-4 sm:px-0">
       <BreadcrumbComponent
         items={[{ label: "Trang chủ", href: "/" }, { label: "Đăng nhập" }]}
       />
 
-      <div className="flex justify-between w-full my-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full my-6 gap-4">
         <div>
-          <h1 className="text-2xl font-semibold mb-2">ĐĂNG NHẬP</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold mb-2 uppercase">
+            Đăng nhập
+          </h1>
           <Image src={titleleftdark} alt="Underline" width={70} height={20} />
         </div>
-        <Link href="/register">
-          <Button className="bg-black text-white text-sm px-7 py-5 rounded-none cursor-pointer hover:bg-gray-700">
+        <Link href="/register" className="w-full sm:w-auto">
+          <Button className="w-full sm:w-auto bg-black text-white text-sm px-7 py-5 rounded-none cursor-pointer hover:bg-gray-700">
             ĐĂNG KÝ
           </Button>
         </Link>
@@ -76,10 +77,12 @@ export default function RegisterPage() {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-          <div className="w-full flex flex-col gap-8 border px-12 py-8">
+          <div className="w-full flex flex-col gap-6 sm:gap-8 border px-4 py-6 sm:px-12 sm:py-8">
             <div className="flex flex-col gap-2">
-              <h1 className="font-semibold">KHÁCH HÀNG ĐĂNG NHẬP</h1>
-              <h2 className="text-sm text-nowrap">
+              <h1 className="font-semibold uppercase text-sm sm:text-base">
+                Khách hàng đăng nhập
+              </h1>
+              <h2 className="text-xs sm:text-sm">
                 Nếu bạn có một tài khoản, xin vui lòng đăng nhập
               </h2>
             </div>
@@ -88,18 +91,20 @@ export default function RegisterPage() {
               control={form.control}
               name="email"
               render={({ field }) => (
-                <FormItem className="flex justify-between items-center">
-                  <FormLabel className="text-sm text-nowrap" required>
+                <FormItem className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                  <FormLabel className="text-sm sm:min-w-[100px]" required>
                     Email
                   </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      className="w-[90%] rounded-none"
-                    />
-                  </FormControl>
-                  <FormMessage />
+                  <div className="w-full sm:w-[90%]">
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="email"
+                        className="w-full rounded-none"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -108,30 +113,36 @@ export default function RegisterPage() {
               control={form.control}
               name="password"
               render={({ field }) => (
-                <FormItem className="flex justify-between items-center">
-                  <FormLabel className="text-sm text-nowrap" required>
-                    Password
+                <FormItem className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                  <FormLabel className="text-sm sm:min-w-[100px]" required>
+                    Mật khẩu
                   </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      className="w-[90%] rounded-none"
-                    />
-                  </FormControl>
-                  <FormMessage />
+                  <div className="w-full sm:w-[90%]">
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="password"
+                        className="w-full rounded-none"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
 
-            <div className="flex items-center justify-between px-20">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between sm:px-0 lg:px-20 gap-4">
               <div className="flex items-center gap-2">
-                <FormControl>
-                  <Checkbox className="border-gray-500 size-3 rounded-none" />
-                </FormControl>
-                <FormLabel className="text-sm text-nowrap">
+                <Checkbox
+                  className="border-gray-500 size-4 rounded-none"
+                  id="remember"
+                />
+                <label
+                  htmlFor="remember"
+                  className="text-sm cursor-pointer select-none"
+                >
                   Ghi nhớ đăng nhập
-                </FormLabel>
+                </label>
               </div>
               <Link
                 href="/forgot-password"
@@ -142,19 +153,24 @@ export default function RegisterPage() {
             </div>
 
             {serverError && (
-              <div className="text-red-500 text-sm">{serverError}</div>
+              <div className="text-red-500 text-sm text-center sm:text-left">
+                {serverError}
+              </div>
             )}
 
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-min bg-black text-white text-xs mx-20 px-4 py-1 rounded-none cursor-pointer hover:bg-gray-700"
-            >
-              {loading ? "ĐANG XỬ LÝ..." : "ĐĂNG NHẬP"}
-            </Button>
+            <div className="flex justify-center sm:justify-start lg:px-20">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full sm:w-auto bg-black text-white text-xs px-10 py-2 rounded-none cursor-pointer hover:bg-gray-700 uppercase"
+              >
+                {loading ? "Đang xử lý..." : "Đăng nhập"}
+              </Button>
+            </div>
 
-            {/* OAuth Login Buttons */}
-            <OAuthButtons />
+            <div className="border-t pt-6">
+              <OAuthButtons />
+            </div>
           </div>
         </form>
       </Form>

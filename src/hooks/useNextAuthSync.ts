@@ -26,9 +26,10 @@ export function useNextAuthSync() {
     // Priority 2: Traditional cookie session (fallback)
     else if (status === "unauthenticated" && !user) {
       const currentPath = window.location.pathname;
-      const authPathPattern = /^\/(login|register|two-factor|forgot-password|reset-password)(\/|$)/;
+      const authPathPattern =
+        /^\/(login|register|two-factor|forgot-password|reset-password)(\/|$)/;
       const isAuthPage = authPathPattern.test(currentPath);
-      
+
       if (!isAuthPage) {
         initUser();
       }
