@@ -2,27 +2,33 @@
 
 import "@/src/i18n/i18n";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
 
-  const currentLang = i18n.language || "vi";
-
-  // Load language from localStorage on mount
-  useEffect(() => {
+  // Use state to avoid initial flicker and sync with localStorage
+  const [currentLang, setCurrentLang] = useState<"vi" | "en">(() => {
     if (typeof window !== "undefined") {
       const savedLang = localStorage.getItem("i18nextLng");
-      if (savedLang && savedLang !== i18n.language) {
-        i18n.changeLanguage(savedLang);
+      if (savedLang === "vi" || savedLang === "en") {
+        return savedLang;
       }
     }
-  }, [i18n]);
+    const lang = i18n.language || "vi";
+    return lang.startsWith("en") ? "en" : "vi";
+  });
+
+  // Ensure i18n uses the state value
+  useEffect(() => {
+    if (i18n.language !== currentLang) {
+      i18n.changeLanguage(currentLang);
+    }
+  }, [i18n, currentLang]);
 
   const handleChange = (lang: "vi" | "en") => {
     if (lang === currentLang) return;
-    i18n.changeLanguage(lang);
-    // Save to localStorage
+    setCurrentLang(lang);
     if (typeof window !== "undefined") {
       localStorage.setItem("i18nextLng", lang);
     }
@@ -58,4 +64,5 @@ const LanguageSwitcher = () => {
 };
 
 export default LanguageSwitcher;
+
 

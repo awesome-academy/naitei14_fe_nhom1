@@ -53,20 +53,36 @@ export default function BlogList({ initialPosts }: BlogListProps) {
     return translated !== key ? translated : originalExcerpt;
   };
 
-  // Helper function to get translated category
+  // Category translation using stable identifiers + alias map
+  const CATEGORY_TRANSLATION_KEYS: Record<string, string> = {
+    knowledge: "blog.category.knowledge",
+    news: "blog.category.news",
+    guide: "blog.category.guide",
+    event: "blog.category.event",
+  };
+
+  const CATEGORY_ALIAS_MAP: Record<string, string> = {
+    "kiến thức": "knowledge",
+    knowledge: "knowledge",
+    "tin tức": "news",
+    news: "news",
+    "hướng dẫn": "guide",
+    guide: "guide",
+    "sự kiện": "event",
+    event: "event",
+  };
+
   const getCategoryTranslation = (category: string) => {
-    if (category.includes("Kiến thức") || category.includes("Knowledge")) {
-      return t("blog.category.knowledge");
+    const normalized = category.trim().toLowerCase();
+    const identifier = CATEGORY_ALIAS_MAP[normalized] ?? normalized;
+    const translationKey = CATEGORY_TRANSLATION_KEYS[identifier];
+
+    if (translationKey) {
+      const translated = t(translationKey);
+      return translated !== translationKey ? translated : category;
     }
-    if (category.includes("Tin tức") || category.includes("News")) {
-      return t("blog.category.news");
-    }
-    if (category.includes("Hướng dẫn") || category.includes("Guide")) {
-      return t("blog.category.guide");
-    }
-    if (category.includes("Sự kiện") || category.includes("Event")) {
-      return t("blog.category.event");
-    }
+
+    // Fallback: return original if no mapping
     return category;
   };
 

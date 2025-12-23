@@ -68,16 +68,23 @@ const CheckoutPage = () => {
     [t]
   );
 
+  // Map shipping option value -> translation key (stable, no ternary)
+  const shippingLabelKeyMap: Record<string, string> = {
+    "J&T Express": "shipping.carrier.jnt",
+    "Giao hàng nhanh": "shipping.carrier.fast",
+  };
+
   const translatedShippingOptions = useMemo(
     () =>
-      shippingOptions.map((opt) => ({
-        ...opt,
-        label:
-          opt.value === "J&T Express"
-            ? t("shipping.carrier.jnt")
-            : t("shipping.carrier.fast"),
-      })),
-    [t]
+      shippingOptions.map((opt) => {
+        const translationKey =
+          shippingLabelKeyMap[opt.value] ?? "shipping.carrier.fast";
+        return {
+          ...opt,
+          label: t(translationKey),
+        };
+      }),
+    [shippingOptions, t]
   );
   const cartItems: ProductItem[] = useMemo(() => {
     return (
