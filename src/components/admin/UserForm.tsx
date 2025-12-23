@@ -1,22 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { User } from '@/types/user.types';
-import { addUser, updateUser } from '@/services/userApi';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
+
 import { Eye, EyeOff, X } from 'lucide-react';
 import { toast } from 'sonner';
+import { User } from '@/src/types/user.types';
+import { addUser, updateUser } from '@/src/services/userApi';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { Label } from '@/src/components/ui/label';
+import { Input } from '../ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Checkbox } from '../ui/checkbox';
 
 interface Props {
     user: User | null;
@@ -82,14 +77,13 @@ export default function UserForm({ user, onSave, onCancel }: Props) {
 
         setIsSubmitting(true);
         try {
-            const userData = { ...form, avatar: 'placeholder/avatar.png' };
             if (user) {
-                await updateUser(user.id, userData);
+                await updateUser(user.id, form);
                 toast.success('Cập nhật người dùng thành công');
             } else {
-                await addUser(userData);
+                await addUser(form);
                 toast.success('Thêm người dùng thành công', {
-                    description: `Người dùng ${userData.firstName} đã được tạo.`,
+                    description: `Người dùng ${form.firstName} đã được tạo.`,
                 });
             }
             setForm(INITIAL_FORM_STATE);
@@ -103,8 +97,8 @@ export default function UserForm({ user, onSave, onCancel }: Props) {
 
     useEffect(() => {
         if (user) {
-            setForm({ ...user, password: '', avatar: 'placeholder/avatar.png' });
-            validateForm({ ...user, password: '', avatar: 'placeholder/avatar.png' });
+            setForm({ ...user, password: '' });
+            validateForm({ ...user, password: '' });
         } else {
             setForm(INITIAL_FORM_STATE);
             validateForm(INITIAL_FORM_STATE);
